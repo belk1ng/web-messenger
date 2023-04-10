@@ -1,19 +1,25 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 
-import App from "./App";
 import "./assets/styles/reset.scss";
 import "./assets/styles/App.scss";
 import "./assets/styles/index.scss";
+
+import Router from "./routes/Router";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter>
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <React.StrictMode>
+        <Router />
+      </React.StrictMode>
+    </Suspense>
+  </BrowserRouter>
 );
 
 reportWebVitals();

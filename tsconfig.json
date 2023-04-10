@@ -15,11 +15,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "noImplicitAny": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "sourceMap": true,
     "strictNullChecks": true,
     "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": ["src/"]
 }
