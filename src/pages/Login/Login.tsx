@@ -9,6 +9,7 @@ const LoginPage = () => {
   return (
     <section className={styles.login}>
       <Cloud>
+        <h1 className={styles.login__title}>Sign In</h1>
         <form noValidate>
           <FormInput
             name="login"

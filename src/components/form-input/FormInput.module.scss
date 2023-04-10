@@ -4,10 +4,11 @@
   .input__label {
     font-size: 9px;
     color: $grey;
-    font-weight: 500;
   }
 
   .input__input {
+    width: 100%;
+
     border: 0;
     border-radius: 0;
     padding: 0;
@@ -17,7 +18,6 @@
 
     padding-bottom: 7px;
 
-    font-weight: 500;
     font-size: 13px;
 
     &::-webkit-input-placeholder {
@@ -32,7 +32,6 @@
 
   .input__error {
     font-size: 8px;
-    font-weight: 500;
     color: $error;
     margin-top: 7px;
   }
