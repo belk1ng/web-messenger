@@ -1,7 +1,9 @@
+@import "/src/assets/styles/variables.scss";
+
 .input-wrapper {
   .input__label {
     font-size: 9px;
-    color: #999;
+    color: $grey;
     font-weight: 500;
   }
 
@@ -10,8 +12,8 @@
     border-radius: 0;
     padding: 0;
 
-    border-bottom: 1px solid #3369f3;
-    color: #1e1e1e;
+    border-bottom: 1px solid $blue;
+    color: $black;
 
     padding-bottom: 7px;
 
@@ -19,7 +21,7 @@
     font-size: 13px;
 
     &::-webkit-input-placeholder {
-      color: #999999;
+      color: $grey;
     }
 
     &:focus,
@@ -31,7 +33,7 @@
   .input__error {
     font-size: 8px;
     font-weight: 500;
-    color: #ff2f2f;
+    color: $error;
     margin-top: 7px;
   }
 
