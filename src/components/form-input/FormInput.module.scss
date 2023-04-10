@@ -20,13 +20,17 @@
 
     font-size: 13px;
 
+    transition: border-bottom 0.25s ease;
+
     &::-webkit-input-placeholder {
       color: $grey;
     }
 
     &:focus,
-    &:focus-visible {
+    &:focus-visible,
+    &:hover {
       outline: none;
+      border-bottom: 1px solid $blue-hover;
     }
   }
 

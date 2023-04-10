@@ -4,7 +4,6 @@ import reportWebVitals from "./reportWebVitals";
 
 import "./assets/styles/fonts.scss";
 import "./assets/styles/reset.scss";
-import "./assets/styles/App.scss";
 import "./assets/styles/index.scss";
 
 import Router from "./routes/Router";

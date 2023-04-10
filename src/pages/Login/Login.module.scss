@@ -9,4 +9,12 @@
     font-weight: 600;
     margin-bottom: 40px;
   }
+
+  &__actions {
+    margin-top: 170px;
+
+    @include flex-center;
+    flex-direction: column;
+    gap: 8px;
+  }
 }

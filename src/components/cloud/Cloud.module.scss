@@ -1,7 +1,8 @@
 @import "/src/assets/styles/variables.scss";
 
 .cloud {
-  max-width: 310px;
+  max-width: 320px;
+  min-width: 320px;
 
   background-color: $white;
   border-radius: 12px;
