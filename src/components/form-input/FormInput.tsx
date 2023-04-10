@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect, ChangeEvent } from "react";
 import { FormInputProps } from "./types";
+import { validate } from "../../utils/validate";
 
 import styles from "./FormInput.module.scss";
 
@@ -9,6 +10,7 @@ const FormInput: FC<FormInputProps> = ({
   placeholder,
   label,
   errorMessage,
+  validationRule,
 }) => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
@@ -30,10 +32,10 @@ const FormInput: FC<FormInputProps> = ({
   };
 
   const handleBlur = () => {
-    const isValid = Math.random() > 0.5;
+    const { isValid, message } = validate(value, validationRule);
 
     if (!isValid) {
-      setError("Error message here");
+      setError(message);
     }
   };
 

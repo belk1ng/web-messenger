@@ -3,6 +3,7 @@ import Cloud from "../../components/cloud";
 import FormInput from "../../components/form-input";
 
 import styles from "./Login.module.scss";
+import { VALIDATION_FIELD } from "../../utils/validate";
 
 const LoginPage = () => {
   return (
@@ -14,6 +15,7 @@ const LoginPage = () => {
             label="Login"
             placeholder="Enter the login"
             type="text"
+            validationRule={VALIDATION_FIELD.LOGIN}
           />
 
           <FormInput
@@ -21,6 +23,7 @@ const LoginPage = () => {
             label="Password"
             placeholder="Enter the password"
             type="password"
+            validationRule={VALIDATION_FIELD.PASSWORD}
           />
         </form>
       </Cloud>
