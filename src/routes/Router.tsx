@@ -8,7 +8,6 @@ import {
   ProfilePage,
   ProfileEditPage,
   ProfileChangePasswordPage,
-  UnauthorizedPage,
   NotFoundPage,
 } from "./elements";
 
@@ -44,10 +43,6 @@ const Router = () => {
           element: <ProfileChangePasswordPage />,
         },
       ],
-    },
-    {
-      path: APP_ROUTES.UNAUTHORIZED,
-      element: <UnauthorizedPage />,
     },
     {
       path: APP_ROUTES.NOT_FOUND,

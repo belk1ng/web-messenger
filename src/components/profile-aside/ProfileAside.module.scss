@@ -1,0 +1,20 @@
+@import "/src/assets/styles/variables.scss";
+@import "/src/assets/styles/mixins.scss";
+
+.aside {
+  min-width: 64px;
+  max-width: 64px;
+
+  background-color: $aside-bg;
+  border-right: 1px solid $separator-color;
+
+  @include flex-center;
+
+  &__link circle {
+    transition: fill 0.25s ease;
+
+    &:hover {
+      fill: $blue-hover;
+    }
+  }
+}

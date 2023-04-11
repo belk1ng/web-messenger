@@ -12,7 +12,7 @@ const ChatsPage = () => {
       <ChatsAside />
       <section className={styles.chats__chat}>
         <h5 className={styles.chats__trigger}>
-          Сhoose who you would like to write to
+          Select a chat to start messaging
         </h5>
       </section>
     </main>

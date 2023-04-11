@@ -1,0 +1,26 @@
+@import "/src/assets/styles/variables.scss";
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-width: 510px;
+  width: 100%;
+
+  padding: 10px 0;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid $separator-color;
+  }
+
+  &__label,
+  &__value {
+    font-size: 13px;
+    line-height: 13px;
+  }
+
+  &__value {
+    color: $grey;
+  }
+}

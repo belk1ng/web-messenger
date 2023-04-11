@@ -35,4 +35,12 @@
       color: $white;
     }
   }
+
+  &--error {
+    color: $error;
+
+    &:hover {
+      color: $error-hover;
+    }
+  }
 }

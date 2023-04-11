@@ -1,0 +1,43 @@
+@import "/src/assets/styles/variables.scss";
+@import "/src/assets/styles/mixins.scss";
+
+.avatar {
+  position: relative;
+  margin-bottom: 95px;
+
+  &:not(&--readonly) {
+    cursor: pointer;
+
+    &:hover::after {
+      opacity: 1;
+    }
+
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: "Change avatar";
+      display: block;
+      background-color: #00000085;
+      opacity: 0;
+      color: $white;
+
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 14px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      transition: opacity 0.25s ease-out;
+    }
+  }
+
+  &__image,
+  &:after {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+  }
+}
