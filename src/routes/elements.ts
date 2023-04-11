@@ -9,6 +9,6 @@ export const ProfileEditPage = lazy(() => import("../pages/ProfileEdit"));
 export const ProfileChangePasswordPage = lazy(
   () => import("../pages/ProfileChangePassword")
 );
-export const ChatsPage = lazy(() => import("../pages/Chats"));
+export const ChatsPage = lazy(() => import("../pages/Chats/Chats"));
 export const NotFoundPage = lazy(() => import("../pages/404"));
 export const UnauthorizedPage = lazy(() => import("../pages/401"));

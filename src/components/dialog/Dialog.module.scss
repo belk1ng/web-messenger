@@ -1,0 +1,79 @@
+@import "/src/assets/styles/variables.scss";
+@import "/src/assets/styles/mixins.scss";
+
+.dialog {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 12px 10px;
+  cursor: pointer;
+
+  border-top: 1px solid $separator-color;
+
+  transition: background-color 0.25s ease;
+
+  &:hover {
+    background-color: $oceanic;
+  }
+
+  &__left {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__title {
+    font-size: 13px;
+    line-height: 13px;
+    font-weight: 600;
+  }
+
+  &__message {
+    font-size: 12px;
+    color: $grey;
+    line-height: 15px;
+    margin-top: 4px;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  &__date {
+    font-size: 9px;
+    line-height: 13px;
+    color: $grey;
+  }
+
+  &__unread {
+    background-color: $blue;
+    border-radius: 50%;
+    color: $white;
+
+    font-size: 11px;
+    line-height: 12px;
+    text-align: center;
+
+    max-height: 20px;
+    max-width: 20px;
+    height: 100%;
+    width: 100%;
+
+    padding: 4px;
+
+    @include flex-center;
+  }
+
+  &__avatar {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+  }
+}
