@@ -1,0 +1,20 @@
+@import "/src/assets/styles/mixins.scss";
+
+.registration {
+  @include flex-center;
+
+  &__title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 40px;
+  }
+
+  &__actions {
+    margin-top: 50px;
+
+    @include flex-center;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
