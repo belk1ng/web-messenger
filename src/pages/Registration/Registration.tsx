@@ -5,8 +5,12 @@ import Cloud from "../../components/cloud";
 import styles from "./Registration.module.scss";
 import { VALIDATION_FIELD } from "../../utils/validate";
 import { APP_ROUTES } from "../../routes/routes";
+import useTitle from "../../hooks/useTitle";
+import { APP_TITLE } from "../../hooks/useTitle";
 
 const RegistragionPage = () => {
+  useTitle(APP_TITLE.REGISTRATION);
+
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
 
