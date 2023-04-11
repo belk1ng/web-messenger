@@ -6,12 +6,18 @@ import Button from "../../components/button";
 import styles from "./Login.module.scss";
 import { VALIDATION_FIELD } from "../../utils/validate";
 import { APP_ROUTES } from "../../routes/routes";
+import { APP_TITLE } from "../../hooks/useTitle";
+import useTitle from "../../hooks/useTitle";
 
 const LoginPage = () => {
+  useTitle(APP_TITLE.LOGIN);
+
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
 
-    const formData = new FormData(event.target as HTMLFormElement);
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+
     for (const [name, value] of formData) {
       console.log(name, ": ", value);
     }
@@ -29,7 +35,6 @@ const LoginPage = () => {
             type="text"
             validationRule={VALIDATION_FIELD.LOGIN}
           />
-
           <FormInput
             name="password"
             label="Password"
