@@ -7,5 +7,7 @@ export interface FormInputProps {
   label: string;
   validationRule: VALIDATION_FIELD;
 
+  value?: string;
   errorMessage?: string;
+  onChange?: (value: string, name: string) => void;
 }

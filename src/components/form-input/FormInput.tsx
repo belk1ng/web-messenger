@@ -9,11 +9,20 @@ const FormInput: FC<FormInputProps> = ({
   name,
   placeholder,
   label,
-  errorMessage,
   validationRule,
+
+  value,
+  errorMessage,
+  onChange,
 }) => {
-  const [value, setValue] = useState("");
+  const [_value, setValue] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (typeof value === "string") {
+      setValue(value);
+    }
+  }, [value]);
 
   useEffect(() => {
     if (typeof errorMessage === "string" && errorMessage.trim().length > 0) {
@@ -24,7 +33,7 @@ const FormInput: FC<FormInputProps> = ({
   }, [errorMessage]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    onChange && onChange(name, event.target.value);
   };
 
   const handleFocus = () => {
@@ -32,7 +41,7 @@ const FormInput: FC<FormInputProps> = ({
   };
 
   const handleBlur = () => {
-    const { isValid, message } = validate(value, validationRule);
+    const { isValid, message } = validate(_value, validationRule);
 
     if (!isValid) {
       setError(message);
@@ -48,7 +57,7 @@ const FormInput: FC<FormInputProps> = ({
           type={type}
           name={name}
           placeholder={placeholder}
-          value={value}
+          value={_value}
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
