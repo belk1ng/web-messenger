@@ -9,6 +9,7 @@ import "./assets/styles/index.scss";
 import Router from "./routes/Router";
 import { BrowserRouter } from "react-router-dom";
 
+import AuthContextProvider from "./contexts/AuthContext";
 import Loader from "./components/loader";
 
 const root = ReactDOM.createRoot(
@@ -16,13 +17,15 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <BrowserRouter>
-    <Suspense fallback={<Loader />}>
-      <React.StrictMode>
-        <Router />
-      </React.StrictMode>
-    </Suspense>
-  </BrowserRouter>
+  <AuthContextProvider>
+    <BrowserRouter>
+      <Suspense fallback={<Loader />}>
+        <React.StrictMode>
+          <Router />
+        </React.StrictMode>
+      </Suspense>
+    </BrowserRouter>
+  </AuthContextProvider>
 );
 
 reportWebVitals();
