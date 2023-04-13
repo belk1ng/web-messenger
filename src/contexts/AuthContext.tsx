@@ -14,16 +14,19 @@ interface AuthContextProps {
 
 interface AuthContextValues {
   user: null | AuthUser;
+  setUser: (user: null | AuthUser) => void;
+
   isAuth: boolean;
+  setAuth: (value: boolean) => void;
 }
 
-const AuthContext = createContext<AuthContextValues>({
-  isAuth: false,
-  user: null,
-});
+export const AuthContext = createContext<AuthContextValues>(
+  {} as AuthContextValues
+);
 
 const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
   const [isAuth, setAuth] = useState(false);
+
   const [user, setUser] = useState<AuthUser | null>(null);
 
   const getUserInfo = async () => {
