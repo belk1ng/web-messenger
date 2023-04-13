@@ -13,6 +13,7 @@ const FormInput: FC<FormInputProps> = ({
 
   value,
   errorMessage,
+  clearError,
   onChange,
 }) => {
   const [_value, setValue] = useState("");
@@ -38,6 +39,7 @@ const FormInput: FC<FormInputProps> = ({
 
   const handleFocus = () => {
     setError("");
+    clearError && clearError(name);
   };
 
   const handleBlur = () => {

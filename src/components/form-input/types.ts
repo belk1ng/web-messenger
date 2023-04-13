@@ -9,5 +9,6 @@ export interface FormInputProps {
 
   value?: string;
   errorMessage?: string;
+  clearError?: (value: string) => void;
   onChange?: (value: string, name: string) => void;
 }

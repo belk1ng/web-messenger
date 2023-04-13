@@ -13,6 +13,12 @@ type ActionType =
   | {
       type: "error";
       payload: ActionPayload;
+    }
+  | {
+      type: "clear";
+      payload: {
+        name: string;
+      };
     };
 
 function useFormReducer<
@@ -43,6 +49,15 @@ function useFormReducer<
             errorMessage: action.payload.value,
           },
         };
+
+      case "clear":
+        return {
+          ...state,
+          [action.payload.name]: {
+            value: state[action.payload.name as keyof typeof state].value,
+            errorMessage: "",
+          },
+        };
     }
   }
 
@@ -68,11 +83,21 @@ function useFormReducer<
     });
   };
 
+  const handleClearError = (name: string) => {
+    dispatch({
+      type: "clear",
+      payload: {
+        name,
+      },
+    });
+  };
+
   return {
     state,
     dispatch,
     handleChange,
     handleError,
+    handleClearError,
   };
 }
 
