@@ -1,4 +1,4 @@
 export interface AvatarProps {
-  source: string;
+  source: string | undefined;
   readonly: boolean;
 }

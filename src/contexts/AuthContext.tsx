@@ -18,6 +18,8 @@ interface AuthContextValues {
 
   isAuth: boolean;
   setAuth: (value: boolean) => void;
+
+  getUserInfo: VoidFunction;
 }
 
 export const AuthContext = createContext<AuthContextValues>(
@@ -50,6 +52,7 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
     setAuth,
     user,
     setUser,
+    getUserInfo,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

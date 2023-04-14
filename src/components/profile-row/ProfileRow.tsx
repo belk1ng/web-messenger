@@ -6,7 +6,7 @@ const ProfileRow: FC<ProfileRowProps> = ({ label, value }) => {
   return (
     <div className={styles.row}>
       <p className={styles.row__label}>{label}</p>
-      <p className={styles.row__value}>{value}</p>
+      <p className={styles.row__value}>{value ?? ""}</p>
     </div>
   );
 };

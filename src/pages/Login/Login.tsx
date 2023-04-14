@@ -7,6 +7,8 @@ import { VALIDATION_FIELD } from "../../utils/validate";
 import { APP_ROUTES } from "../../routes/routes";
 import useTitle, { APP_TITLE } from "../../hooks/useTitle";
 import useForm from "../../hooks/useForm";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import { LoginValues } from "../../@types/auth";
 import AuthAPI from "../../api/auth";
 
@@ -14,6 +16,8 @@ import { validate } from "../../utils/validate";
 
 const LoginPage = () => {
   useTitle(APP_TITLE.LOGIN);
+
+  const navigate = useNavigate();
 
   const initState = {
     login: {
@@ -29,11 +33,15 @@ const LoginPage = () => {
   const { state, handleChange, handleError, handleClearError } =
     useForm(initState);
 
+  const { getUserInfo } = useAuth();
+
   const login = async (data: LoginValues) => {
     const response = await AuthAPI.login(data);
 
     if (response && response.status < 400) {
-      console.log("Good");
+      await getUserInfo();
+
+      navigate(APP_ROUTES.CHATS);
     } else {
       Object.keys(initState).forEach((name) =>
         handleError(

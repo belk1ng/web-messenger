@@ -4,6 +4,8 @@ import classnames from "classnames";
 import styles from "./Avatar.module.scss";
 
 const Avatar: FC<AvatarProps> = ({ source, readonly }) => {
+  const fullSource = `https://ya-praktikum.tech/api/v2/resources${source}`;
+
   return (
     <div
       className={classnames(
@@ -13,7 +15,7 @@ const Avatar: FC<AvatarProps> = ({ source, readonly }) => {
     >
       <img
         className={styles.avatar__image}
-        src={source ? source : "https://vk.com/images/camera_200.png"}
+        src={source ? fullSource : "https://vk.com/images/camera_200.png"}
         alt="User's avatar"
       />
     </div>

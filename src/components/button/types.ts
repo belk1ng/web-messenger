@@ -4,4 +4,5 @@ export interface ButtonProps {
 
   href?: string;
   modificator?: "primary" | "error";
+  onClick?: VoidFunction;
 }
