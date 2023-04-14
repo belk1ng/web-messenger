@@ -13,7 +13,7 @@ interface Validation {
 
 interface Props<T> {
   initState: T;
-  onSubmit: () => Promise<void>;
+  onSubmit: () => void;
   validations: Partial<Record<keyof T, Validation>>;
 }
 
@@ -28,9 +28,23 @@ const useForm = <T extends Record<string, string>>({
 
   const [errors, setErrors] = useState<Errors<T>>({});
 
+  const handleError = (fieldName: string | string[], message: string) => {
+    const errorsUpd = Array.isArray(fieldName)
+      ? fieldName.reduce(
+          (acc, curr) => Object.assign(acc, { [curr]: message }),
+          {}
+        )
+      : { [fieldName]: message };
+
+    setErrors((prev) => ({ ...prev, ...errorsUpd }));
+  };
+
   const handleChange =
     (name: string) => (event: ChangeEvent<HTMLInputElement>) => {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+      if (errors[name]) {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      }
+
       setData((prev) => ({ ...prev, [name]: event.target.value }));
     };
 
@@ -80,6 +94,7 @@ const useForm = <T extends Record<string, string>>({
     data,
     errors,
     handleChange,
+    handleError,
     handleSubmit,
   };
 };

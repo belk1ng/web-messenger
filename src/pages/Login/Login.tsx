@@ -3,7 +3,13 @@ import Cloud from "../../components/cloud";
 import FormInput from "../../components/form-input";
 import Button from "../../components/button";
 import styles from "./Login.module.scss";
-import { VALIDATION_FIELD } from "../../utils/validate";
+import {
+  VALIDATION_FIELD,
+  loginMessage,
+  loginRegExp,
+  passwordMessage,
+  passwordRegExp,
+} from "../../utils/validate";
 import { APP_ROUTES } from "../../routes/routes";
 import useTitle, { APP_TITLE } from "../../hooks/useTitle";
 import useForm from "../../hooks/useForm";
@@ -25,31 +31,28 @@ const LoginPage = () => {
   const validations = {
     login: {
       pattern: {
-        value: /^[a-zA-Z][a-zA-Z0-9_-]{3,20}$/,
-        message:
-          "From 3 to 20 characters, Latin, can contain numbers, but not consist of them, no spaces, no special characters (hyphens and underscores are allowed).",
+        value: loginRegExp,
+        message: loginMessage,
       },
     },
     password: {
       pattern: {
-        value:
-          /^(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-        message:
-          "From 8 to 40 characters, at least one capital letter and a number are required.",
+        value: passwordRegExp,
+        message: passwordMessage,
       },
     },
   };
 
-  const onSubmit = async () => {
-    console.log("Submit called");
-    console.log("LOGIN: ", login);
+  const onSubmit = () => {
+    login(data);
   };
 
-  const { data, errors, handleSubmit, handleChange } = useForm<LoginValues>({
-    initState,
-    onSubmit,
-    validations,
-  });
+  const { data, errors, handleSubmit, handleChange, handleError } =
+    useForm<LoginValues>({
+      initState,
+      onSubmit,
+      validations,
+    });
 
   const { getUserInfo } = useAuth();
 
@@ -60,6 +63,12 @@ const LoginPage = () => {
       await getUserInfo();
 
       navigate(APP_ROUTES.CHATS);
+    } else if (response && typeof response.data === "object") {
+      const reason = response.data.reason;
+
+      handleError(["login", "password"], reason);
+    } else {
+      console.log("Error: ", response);
     }
   };
 
