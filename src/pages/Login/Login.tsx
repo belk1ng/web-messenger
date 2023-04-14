@@ -65,7 +65,7 @@ const LoginPage = () => {
       navigate(APP_ROUTES.CHATS);
     } else if (
       response &&
-      response.status === 400 &&
+      response.status >= 400 &&
       typeof response.data === "object"
     ) {
       const reason = response.data.reason;
