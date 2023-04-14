@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { DialogProps } from "./props";
 import styles from "./Dialog.module.scss";
+import timeAgo from "../../utils/timeAgo";
 
 const Dialog: FC<DialogProps> = ({ avatar, title, message, unread }) => {
   return (
@@ -17,7 +18,9 @@ const Dialog: FC<DialogProps> = ({ avatar, title, message, unread }) => {
         </div>
       </div>
       <div className={styles.dialog__right}>
-        <p className={styles.dialog__date}>12:02</p>
+        <p className={styles.dialog__date}>
+          {timeAgo("2023-04-12T19:22:22.000Z")}
+        </p>
         {unread ? <p className={styles.dialog__unread}>{unread}</p> : null}
       </div>
     </div>
