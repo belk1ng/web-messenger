@@ -3,7 +3,7 @@ import React, {
   ReactNode,
   createContext,
   useState,
-  useEffect,
+  useLayoutEffect,
 } from "react";
 import AuthAPI from "../api/auth";
 import { AuthUser } from "../@types/auth";
@@ -13,6 +13,8 @@ interface AuthContextProps {
 }
 
 interface AuthContextValues {
+  isInit: boolean;
+
   user: null | AuthUser;
   setUser: (user: null | AuthUser) => void;
 
@@ -31,6 +33,8 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
 
   const [user, setUser] = useState<AuthUser | null>(null);
 
+  const [isInit, setInit] = useState(false);
+
   const getUserInfo = async () => {
     const response = await AuthAPI.getUser();
 
@@ -40,12 +44,17 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    console.log("Init auth context");
-    getUserInfo();
+  const _init = async () => {
+    await getUserInfo();
+    setInit(true);
+  };
+
+  useLayoutEffect(() => {
+    _init();
   }, []);
 
   const value = {
+    isInit,
     isAuth,
     setAuth,
     user,

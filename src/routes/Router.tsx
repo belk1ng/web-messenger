@@ -1,6 +1,9 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
 
+import AuthGuard from "./AuthGuard";
+import GuestGuard from "./GuestGuard";
+
 import {
   LoginPage,
   RegistrationPage,
@@ -17,30 +20,54 @@ const Router = () => {
   return useRoutes([
     {
       path: APP_ROUTES.LOGIN,
-      element: <LoginPage />,
+      element: (
+        <GuestGuard>
+          <LoginPage />
+        </GuestGuard>
+      ),
     },
     {
       path: APP_ROUTES.REGISTRATION,
-      element: <RegistrationPage />,
+      element: (
+        <GuestGuard>
+          <RegistrationPage />
+        </GuestGuard>
+      ),
     },
     {
       path: APP_ROUTES.CHATS,
-      element: <ChatsPage />,
+      element: (
+        <AuthGuard>
+          <ChatsPage />
+        </AuthGuard>
+      ),
     },
     {
       path: APP_ROUTES.PROFILE,
       children: [
         {
           path: APP_ROUTES.PROFILE_ROOT,
-          element: <ProfilePage />,
+          element: (
+            <AuthGuard>
+              <ProfilePage />
+            </AuthGuard>
+          ),
         },
         {
           path: APP_ROUTES.PROFILE_EDIT,
-          element: <ProfileEditPage />,
+          element: (
+            <AuthGuard>
+              <ProfileEditPage />
+            </AuthGuard>
+          ),
         },
         {
           path: APP_ROUTES.PROFILE_EDIT_PASSWORD,
-          element: <ProfileChangePasswordPage />,
+          element: (
+            <AuthGuard>
+              <ProfileChangePasswordPage />
+            </AuthGuard>
+          ),
         },
       ],
     },

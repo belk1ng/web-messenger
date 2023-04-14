@@ -17,15 +17,15 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <AuthContextProvider>
-    <BrowserRouter>
-      <Suspense fallback={<Loader />}>
-        <React.StrictMode>
+  <React.StrictMode>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Suspense fallback={<Loader />}>
           <Router />
-        </React.StrictMode>
-      </Suspense>
-    </BrowserRouter>
-  </AuthContextProvider>
+        </Suspense>
+      </BrowserRouter>
+    </AuthContextProvider>
+  </React.StrictMode>
 );
 
 reportWebVitals();
