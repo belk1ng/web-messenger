@@ -12,34 +12,27 @@ const FormInput: FC<FormInputProps> = ({
   validationRule,
 
   value,
-  errorMessage,
-  clearError,
   onChange,
+  error,
 }) => {
-  const [_value, setValue] = useState("");
-  const [error, setError] = useState("");
+  const [_value, setValue] = useState(value || "");
+
+  const [_error, setError] = useState("");
 
   useEffect(() => {
-    if (typeof value === "string") {
-      setValue(value);
-    }
+    setValue(value ?? "");
   }, [value]);
 
   useEffect(() => {
-    if (typeof errorMessage === "string" && errorMessage.trim().length > 0) {
-      setError(errorMessage);
-    } else {
-      setError("");
-    }
-  }, [errorMessage]);
+    setError(error ?? "");
+  }, [error]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange && onChange(name, event.target.value);
+    onChange && onChange(name)(event);
   };
 
   const handleFocus = () => {
     setError("");
-    clearError && clearError(name);
   };
 
   const handleBlur = () => {
@@ -59,12 +52,12 @@ const FormInput: FC<FormInputProps> = ({
           type={type}
           name={name}
           placeholder={placeholder}
-          value={_value}
+          value={value}
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
-        {error && <p className={styles.input__error}>{error}</p>}
+        {_error && <p className={styles.input__error}>{_error}</p>}
       </label>
     </div>
   );

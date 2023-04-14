@@ -19,7 +19,7 @@ interface AuthContextValues {
   isAuth: boolean;
   setAuth: (value: boolean) => void;
 
-  getUserInfo: VoidFunction;
+  getUserInfo: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextValues>(

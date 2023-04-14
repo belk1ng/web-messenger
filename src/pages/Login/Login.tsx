@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from "react";
+import React from "react";
 import Cloud from "../../components/cloud";
 import FormInput from "../../components/form-input";
 import Button from "../../components/button";
@@ -12,26 +12,44 @@ import { useNavigate } from "react-router-dom";
 import { LoginValues } from "../../@types/auth";
 import AuthAPI from "../../api/auth";
 
-import { validate } from "../../utils/validate";
-
 const LoginPage = () => {
   useTitle(APP_TITLE.LOGIN);
 
   const navigate = useNavigate();
 
   const initState = {
+    login: "",
+    password: "",
+  };
+
+  const validations = {
     login: {
-      value: "",
-      errorMessage: "",
+      pattern: {
+        value: /^[a-zA-Z][a-zA-Z0-9_-]{3,20}$/,
+        message:
+          "From 3 to 20 characters, Latin, can contain numbers, but not consist of them, no spaces, no special characters (hyphens and underscores are allowed).",
+      },
     },
     password: {
-      value: "",
-      errorMessage: "",
+      pattern: {
+        value:
+          /^(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+        message:
+          "From 8 to 40 characters, at least one capital letter and a number are required.",
+      },
     },
   };
 
-  const { state, handleChange, handleError, handleClearError } =
-    useForm(initState);
+  const onSubmit = async () => {
+    console.log("Submit called");
+    console.log("LOGIN: ", login);
+  };
+
+  const { data, errors, handleSubmit, handleChange } = useForm<LoginValues>({
+    initState,
+    onSubmit,
+    validations,
+  });
 
   const { getUserInfo } = useAuth();
 
@@ -42,44 +60,6 @@ const LoginPage = () => {
       await getUserInfo();
 
       navigate(APP_ROUTES.CHATS);
-    } else {
-      Object.keys(initState).forEach((name) =>
-        handleError(
-          name,
-          typeof response?.data === "object" ? response.data.reason : ""
-        )
-      );
-    }
-  };
-
-  const handleSubmit = (event: SyntheticEvent) => {
-    event.preventDefault();
-
-    let formValid = true;
-
-    const json = {};
-
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    for (const [name, value] of formData) {
-      Object.assign(json, { [name]: value });
-
-      const { isValid, message } = validate(
-        value as string,
-        name as VALIDATION_FIELD
-      );
-
-      if (!isValid) {
-        formValid = false;
-        handleError(name, message);
-      }
-    }
-
-    if (formValid) {
-      login(json as LoginValues);
-    } else {
-      console.log("Form not valid");
     }
   };
 
@@ -94,10 +74,9 @@ const LoginPage = () => {
             placeholder="Enter the login"
             type="text"
             validationRule={VALIDATION_FIELD.LOGIN}
-            value={state.login.value}
-            errorMessage={state.login.errorMessage}
-            clearError={handleClearError}
+            value={data.login}
             onChange={handleChange}
+            error={errors.login}
           />
           <FormInput
             name="password"
@@ -105,10 +84,9 @@ const LoginPage = () => {
             placeholder="Enter the password"
             type="password"
             validationRule={VALIDATION_FIELD.PASSWORD}
-            value={state.password.value}
-            errorMessage={state.password.errorMessage}
-            clearError={handleClearError}
+            value={data.password}
             onChange={handleChange}
+            error={errors.password}
           />
 
           <div className={styles.login__actions}>
