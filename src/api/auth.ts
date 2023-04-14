@@ -27,7 +27,7 @@ class AuthAPI {
     values: RegistrationValues
   ): MethodResponse<Pick<AuthUser, "id">> {
     const response = await axios.post<Pick<AuthUser, "id">>(
-      `${AuthAPI.AUTH_PREFIX}${AUTH_ENDPOINTS.LOGIN}`,
+      `${AuthAPI.AUTH_PREFIX}${AUTH_ENDPOINTS.REGISTRATION}`,
       values
     );
     const { data, status } = response;

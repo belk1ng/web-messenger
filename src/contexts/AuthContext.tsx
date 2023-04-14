@@ -34,9 +34,7 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
   const getUserInfo = async () => {
     const response = await AuthAPI.getUser();
 
-    console.log(response?.data);
-
-    if (response && response.status < 400) {
+    if (response && response.status === 200) {
       setUser(response.data as AuthUser);
       setAuth(true);
     }

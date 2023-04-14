@@ -25,6 +25,8 @@ const ProfilePage = () => {
       setUser(null);
 
       navigate(APP_ROUTES.LOGIN);
+    } else {
+      console.log(response?.data);
     }
   };
 

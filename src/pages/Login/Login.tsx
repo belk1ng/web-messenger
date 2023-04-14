@@ -59,11 +59,15 @@ const LoginPage = () => {
   const login = async (data: LoginValues) => {
     const response = await AuthAPI.login(data);
 
-    if (response && response.status < 400) {
+    if (response && response.status === 200) {
       await getUserInfo();
 
       navigate(APP_ROUTES.CHATS);
-    } else if (response && typeof response.data === "object") {
+    } else if (
+      response &&
+      response.status === 400 &&
+      typeof response.data === "object"
+    ) {
       const reason = response.data.reason;
 
       handleError(["login", "password"], reason);
