@@ -51,17 +51,9 @@ const useForm = <T extends Record<string, string>>({
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
 
-    const form = event.target as HTMLFormElement;
-
-    const formData = new FormData(form);
-
     let isFormValid = true;
 
     const _errors: Errors<T> = {};
-
-    for (const [name, value] of formData) {
-      console.log(name, ": ", value);
-    }
 
     Object.keys(validations).forEach((field) => {
       const validation = validations[field];
