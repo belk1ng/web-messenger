@@ -70,6 +70,7 @@ const useForm = <T extends Record<string, string>>({
 
     if (onSubmit && isFormValid) {
       onSubmit();
+      setErrors({});
     } else {
       setErrors(_errors);
     }
