@@ -20,12 +20,16 @@
     flex: 0;
 
     padding: 0 10px;
+
+    border-bottom: 1px solid $separator-color;
   }
 
   &__list {
     flex: 1 1 auto;
     height: 0;
     overflow: auto;
+
+    margin-top: -1px;
   }
 
   &__link {

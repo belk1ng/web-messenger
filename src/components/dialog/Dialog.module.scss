@@ -4,8 +4,9 @@
 .dialog {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 
-  padding: 12px 10px;
+  padding: 8px 10px;
   cursor: pointer;
 
   border-top: 1px solid $separator-color;
@@ -16,34 +17,47 @@
     background-color: $oceanic;
   }
 
-  &__left {
+  &__info {
+    flex: 1 1 auto;
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+
+    width: 0;
+    max-width: 100%;
+  }
+
+  &__top,
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__bottom {
+    margin-top: 7px;
+    flex: 1 0 auto;
   }
 
   &__title {
     font-size: 13px;
     line-height: 13px;
     font-weight: 600;
+
+    max-width: 60%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   &__message {
     font-size: 12px;
     color: $grey;
     line-height: 15px;
-    margin-top: 4px;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
-  }
-
-  &__right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-between;
   }
 
   &__date {
@@ -63,6 +77,7 @@
 
     max-height: 20px;
     max-width: 20px;
+    min-width: 20px;
     height: 100%;
     width: 100%;
 

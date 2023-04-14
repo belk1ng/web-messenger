@@ -3,5 +3,5 @@ export interface DialogProps {
   avatar?: string;
   message: string;
 
-  unread?: string;
+  unread?: number;
 }

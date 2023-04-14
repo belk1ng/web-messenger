@@ -33,7 +33,7 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
                 <Dialog
                   title="Title 1"
                   message="Messege text here"
-                  unread="4"
+                  unread={4}
                   avatar="https://images.unsplash.com/photo-1477346611705-65d1883cee1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
                 />
               </li>
