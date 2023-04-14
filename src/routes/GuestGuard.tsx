@@ -1,11 +1,11 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import useAuth from "../hooks/useAuth";
 import Loader from "../components/loader/Loader";
 import { Navigate } from "react-router-dom";
 import { APP_ROUTES } from "./routes";
 
 interface GuestGuardProps {
-  children: ReactNode | ReactNode[];
+  children: Children;
 }
 
 const GuestGuard: FC<GuestGuardProps> = ({ children }) => {

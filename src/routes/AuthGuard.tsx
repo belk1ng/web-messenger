@@ -1,11 +1,11 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import { Navigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { APP_ROUTES } from "./routes";
 import Loader from "../components/loader/Loader";
 
 interface AuthGuardProps {
-  children: ReactNode | ReactNode[];
+  children: Children;
 }
 
 const AuthGuard: FC<AuthGuardProps> = ({ children }) => {

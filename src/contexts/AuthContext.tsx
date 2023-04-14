@@ -1,15 +1,9 @@
-import React, {
-  FC,
-  ReactNode,
-  createContext,
-  useState,
-  useLayoutEffect,
-} from "react";
+import React, { FC, createContext, useState, useLayoutEffect } from "react";
 import AuthAPI from "../api/auth";
 import { AuthUser } from "../@types/auth";
 
 interface AuthContextProps {
-  children: ReactNode | ReactNode[];
+  children: Children;
 }
 
 interface AuthContextValues {
