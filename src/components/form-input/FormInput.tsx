@@ -1,8 +1,8 @@
-import React, { FC, useState, useEffect, ChangeEvent } from "react";
+import React, { FC } from "react";
 import { FormInputProps } from "./types";
-import { validate } from "../../utils/validate";
 
 import styles from "./FormInput.module.scss";
+import useInput from "../../hooks/useInput";
 
 const FormInput: FC<FormInputProps> = ({
   type,
@@ -15,33 +15,8 @@ const FormInput: FC<FormInputProps> = ({
   onChange,
   error,
 }) => {
-  const [_value, setValue] = useState(value || "");
-
-  const [_error, setError] = useState("");
-
-  useEffect(() => {
-    setValue(value ?? "");
-  }, [value]);
-
-  useEffect(() => {
-    setError(error ?? "");
-  }, [error]);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange && onChange(name)(event);
-  };
-
-  const handleFocus = () => {
-    setError("");
-  };
-
-  const handleBlur = () => {
-    const { isValid, message } = validate(_value, validationRule);
-
-    if (!isValid) {
-      setError(message);
-    }
-  };
+  const { inputValue, inputError, handleFocus, handleBlur, handleChange } =
+    useInput({ name, value, error, validationRule, onChange });
 
   return (
     <div className={styles["input-wrapper"]}>
@@ -52,12 +27,12 @@ const FormInput: FC<FormInputProps> = ({
           type={type}
           name={name}
           placeholder={placeholder}
-          value={value}
+          value={inputValue}
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
-        {_error && <p className={styles.input__error}>{_error}</p>}
+        {inputError && <p className={styles.input__error}>{inputError}</p>}
       </label>
     </div>
   );
