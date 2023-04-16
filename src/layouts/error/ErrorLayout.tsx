@@ -3,11 +3,15 @@ import { ErrorLayoutProps } from "./props";
 import styles from "./ErrorLayout.module.scss";
 import Button from "../../components/button/Button";
 import { useNavigate } from "react-router-dom";
+import useTitle from "../../hooks/useTitle";
 
 const ErrorLayout: FC<ErrorLayoutProps> = ({
   errorMessage,
   errorDescription,
+  title,
 }) => {
+  useTitle(title);
+
   const navigate = useNavigate();
 
   const handleGoBack = () => {
