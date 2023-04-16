@@ -1,6 +1,6 @@
 @import "/src/assets/styles/mixins.scss";
 
-.login {
+.auth {
   @include flex-center;
 
   &__title {
@@ -11,10 +11,16 @@
   }
 
   &__actions {
-    margin-top: 170px;
-
     @include flex-center;
     flex-direction: column;
     gap: 15px;
+
+    &--login {
+      margin-top: 170px;
+    }
+
+    &--register {
+      margin-top: 50px;
+    }
   }
 }
