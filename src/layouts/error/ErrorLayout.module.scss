@@ -1,0 +1,23 @@
+@import "/src/assets/styles/variables.scss";
+@import "/src/assets/styles/mixins.scss";
+
+.error {
+  @include flex-center;
+
+  flex-direction: column;
+
+  &__error {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  &__description {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 50px;
+  }
+
+  button {
+    max-width: 150px;
+  }
+}
