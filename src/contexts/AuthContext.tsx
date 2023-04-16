@@ -1,4 +1,4 @@
-import React, { FC, createContext, useState, useLayoutEffect } from "react";
+import React, { FC, createContext, useState, useEffect } from "react";
 import AuthAPI from "../api/auth";
 import { AuthUser } from "../@types/auth";
 
@@ -43,7 +43,7 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
     setInit(true);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     _init();
   }, []);
 
