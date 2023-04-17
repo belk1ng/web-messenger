@@ -26,8 +26,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint:ts": "npx eslint . --ext .ts --ext .tsx",
-    "format": "npx prettier --write .",
-    "prepare": "husky install"
+    "format": "npx prettier --write ."
   },
   "eslintConfig": {
     "extends": [
