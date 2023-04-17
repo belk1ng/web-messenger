@@ -1,6 +1,6 @@
-Start 
+Start
 
-npm install 
+npm install
 npm start
 
 Build
