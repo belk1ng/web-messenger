@@ -1,0 +1,24 @@
+.scrollbar__track {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.15);
+
+  &--vertical {
+    right: 2px;
+    height: 100%;
+    top: 0;
+  }
+}
+
+.scrollbar__thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: background-color 0.25s ease-in;
+
+  display: block;
+  border-radius: inherit;
+  cursor: pointer;
+  position: relative;
+
+  &--vertical {
+    width: 100%;
+  }
+}

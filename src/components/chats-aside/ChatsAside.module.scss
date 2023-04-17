@@ -3,6 +3,8 @@
 .aside {
   min-width: 310px;
   max-width: 310px;
+  height: 100vh;
+
   padding-top: 20px;
 
   background-color: $aside-bg;
@@ -25,10 +27,7 @@
   }
 
   &__list {
-    flex: 1 1 auto;
-    height: 0;
-    overflow: auto;
-
+    flex: 1;
     margin-top: -1px;
   }
 
