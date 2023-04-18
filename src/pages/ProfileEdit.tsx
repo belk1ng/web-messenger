@@ -17,13 +17,17 @@ import {
 } from "../utils/validate";
 import useAuth from "../hooks/useAuth";
 import useForm from "../hooks/useForm";
+import { useNavigate } from "react-router-dom";
 import styles from "../layouts/profile/ProfileLayout.module.scss";
 import classnames from "classnames";
 import { APP_ROUTES } from "../routes/routes";
 import { APP_TITLE } from "../hooks/useTitle";
+import UserAPI from "../api/user";
 
 const ProfileEditPage = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+
+  const navigate = useNavigate();
 
   const initState = {
     email: user?.email ?? "",
@@ -34,8 +38,23 @@ const ProfileEditPage = () => {
     phone: user?.phone ?? "",
   };
 
+  const updateProfileData = async () => {
+    const response = await UserAPI.updateProfileData(data);
+
+    if (
+      response?.data &&
+      response.status === 200 &&
+      typeof response.data === "object" &&
+      "id" in response.data
+    ) {
+      setUser(response.data);
+
+      navigate(APP_ROUTES.PROFILE);
+    }
+  };
+
   const onSubmit = () => {
-    console.log("SUBMIT PROFILE CALLED");
+    updateProfileData();
   };
 
   const validations = {
@@ -88,7 +107,8 @@ const ProfileEditPage = () => {
       asideHref={APP_ROUTES.PROFILE}
       title={APP_TITLE.PROFILE_EDIT}
     >
-      <Avatar readonly={true} source={user?.avatar} />
+      <Avatar readonly={false} source={user?.avatar} />
+
       <form noValidate onSubmit={handleSubmit}>
         <ProfileRow
           label="Email"

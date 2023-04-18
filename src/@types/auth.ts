@@ -6,11 +6,13 @@ export interface User {
   display_name: string;
   email: string;
   phone: string;
-  avatar: string;
+  avatar?: string;
   password: string;
 }
 
 export type AuthUser = Omit<User, "password">;
+
+export type AuthContextUser = null | AuthUser;
 
 export type LoginValues = Pick<User, "login" | "password">;
 
