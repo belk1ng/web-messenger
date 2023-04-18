@@ -22,9 +22,9 @@ const ProfileRow: FC<ProfileRowProps> = ({
       <div className={styles.row}>
         <div className={styles.row__container}>
           <p className={styles.row__label}>{label}</p>
-          <label>
+          <label className={styles.row__value}>
             <input
-              className={styles.row__value}
+              className={styles.row__input}
               type={type}
               value={inputValue}
               placeholder={placeholder}
