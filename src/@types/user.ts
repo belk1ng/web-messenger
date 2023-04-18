@@ -12,3 +12,9 @@ export interface ProfileAvatarValues {
 }
 
 export type ProfileDataValues = Omit<User, "id" | "password" | "avatar">;
+
+export interface ProfilePasswordsValues {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
