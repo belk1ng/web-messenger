@@ -21,6 +21,8 @@ export type RegistrationValues = Omit<
   confirm_password: string;
 };
 
+export type ProfileEditValues = Omit<User, "id" | "avatar" | "password">;
+
 export enum AUTH_ENDPOINTS {
   "LOGIN" = "/signin",
   "LOGOUT" = "/logout",

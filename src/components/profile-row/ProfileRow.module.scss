@@ -2,13 +2,16 @@
 
 .row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 
-  max-width: 510px;
   width: 100%;
 
   padding: 10px 0;
+
+  &,
+  &__error {
+    max-width: 510px;
+  }
 
   &:not(:last-of-type) {
     border-bottom: 1px solid $separator-color;
@@ -20,7 +23,40 @@
     line-height: 13px;
   }
 
+  &__container {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   &__value {
     color: $grey;
+    text-align: right;
+
+    border: 0;
+
+    &:not(:read-only) {
+      padding: 5px 10px;
+      border: 1px solid $separator-color;
+      border-radius: 4px;
+
+      &:focus,
+      &:focus-visible {
+        outline: 2px solid $blue;
+      }
+    }
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  &__error {
+    font-size: 9px;
+    color: $error;
+    margin-top: 7px;
   }
 }

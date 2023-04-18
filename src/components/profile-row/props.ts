@@ -1,5 +1,3 @@
-export interface ProfileRowProps {
-  readonly?: boolean;
-  label: string;
-  value: string | undefined;
-}
+import { FormInputProps } from "../form-input/types";
+
+export type ProfileRowProps = FormInputProps & { readonly: boolean };

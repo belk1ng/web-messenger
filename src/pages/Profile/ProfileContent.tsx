@@ -16,13 +16,50 @@ const ProfilePage = () => {
       asideHref={APP_ROUTES.CHATS}
       actions={<Actions />}
     >
-      <Avatar readonly={true} source={user?.avatar} />
-      <ProfileRow label="Email" value={user?.email} />
-      <ProfileRow label="Login" value={user?.login} />
-      <ProfileRow label="First name" value={user?.first_name} />
-      <ProfileRow label="Second name" value={user?.second_name} />
-      <ProfileRow label="Display name" value={user?.display_name} />
-      <ProfileRow label="Phone" value={user?.phone} />
+      <Avatar readonly={true} source={user?.avatar ?? ""} />
+
+      <ProfileRow
+        label="Email"
+        value={user?.email ?? ""}
+        name="email"
+        type="email"
+        readonly={true}
+      />
+      <ProfileRow
+        label="Login"
+        value={user?.login ?? ""}
+        name="login"
+        type="text"
+        readonly={true}
+      />
+      <ProfileRow
+        label="First name"
+        value={user?.first_name ?? ""}
+        name="first_name"
+        type="text"
+        readonly={true}
+      />
+      <ProfileRow
+        label="Second name"
+        value={user?.second_name ?? ""}
+        name="second_name"
+        type="text"
+        readonly={true}
+      />
+      <ProfileRow
+        label="Display name"
+        value={user?.display_name ?? ""}
+        name="display_name"
+        type="text"
+        readonly={true}
+      />
+      <ProfileRow
+        label="Phone"
+        value={user?.phone ?? ""}
+        name="phone"
+        type="phone"
+        readonly={true}
+      />
     </ProfileLayout>
   );
 };
