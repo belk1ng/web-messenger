@@ -8,17 +8,13 @@ const ProfileLayout: FC<ProfileLayoutProps> = ({
   title,
   asideHref,
   children,
-  actions,
 }) => {
   useTitle(title);
 
   return (
     <main className={styles.profile}>
       <ProfileAside href={asideHref} />
-      <section className={styles.profile__content}>
-        {children}
-        <section className={styles.profile__actions}>{actions}</section>
-      </section>
+      <section className={styles.profile__content}>{children}</section>
     </main>
   );
 };

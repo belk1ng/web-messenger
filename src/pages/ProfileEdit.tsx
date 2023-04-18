@@ -1,8 +1,9 @@
 import React from "react";
-import Button from "../../components/button/Button";
-import useForm from "../../hooks/useForm";
-import useAuth from "../../hooks/useAuth";
-import { ProfileEditValues } from "../../@types/auth";
+import Button from "../components/button/Button";
+import ProfileRow from "../components/profile-row";
+import ProfileLayout from "../layouts/profile";
+import Avatar from "../components/avatar";
+import { ProfileEditValues } from "../@types/auth";
 import {
   VALIDATION_FIELD,
   emailRegExp,
@@ -13,8 +14,13 @@ import {
   nameMessage,
   phoneRegExp,
   phoneMessage,
-} from "../../utils/validate";
-import ProfileRow from "../../components/profile-row/ProfileRow";
+} from "../utils/validate";
+import useAuth from "../hooks/useAuth";
+import useForm from "../hooks/useForm";
+import styles from "../layouts/profile/ProfileLayout.module.scss";
+import classnames from "classnames";
+import { APP_ROUTES } from "../routes/routes";
+import { APP_TITLE } from "../hooks/useTitle";
 
 const ProfileEditPage = () => {
   const { user } = useAuth();
@@ -78,7 +84,11 @@ const ProfileEditPage = () => {
   });
 
   return (
-    <main>
+    <ProfileLayout
+      asideHref={APP_ROUTES.PROFILE}
+      title={APP_TITLE.PROFILE_EDIT}
+    >
+      <Avatar readonly={true} source={user?.avatar} />
       <form noValidate onSubmit={handleSubmit}>
         <ProfileRow
           label="Email"
@@ -135,9 +145,16 @@ const ProfileEditPage = () => {
           readonly={false}
         />
 
-        <Button variant="button" text="Save" modificator="primary" />
+        <section
+          className={classnames(
+            styles.profile__actions,
+            styles["profile__actions--form"]
+          )}
+        >
+          <Button variant="button" text="Save" modificator="primary" />
+        </section>
       </form>
-    </main>
+    </ProfileLayout>
   );
 };
 

@@ -8,11 +8,6 @@
 
   padding: 10px 0;
 
-  &,
-  &__error {
-    max-width: 510px;
-  }
-
   &:not(:last-of-type) {
     border-bottom: 1px solid $separator-color;
   }
