@@ -8,7 +8,9 @@ const Avatar: FC<AvatarProps> = ({ source, readonly }) => {
   const [modalActive, setModalActive] = useState(false);
 
   const handleModalOpen = () => {
-    setModalActive(true);
+    if (!readonly) {
+      setModalActive(true);
+    }
   };
 
   const fullSource = `https://ya-praktikum.tech/api/v2/resources${source}`;
@@ -30,12 +32,7 @@ const Avatar: FC<AvatarProps> = ({ source, readonly }) => {
       </div>
 
       <Modal active={modalActive} setActive={setModalActive}>
-        <div>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-          amet quam nihil, illo necessitatibus nobis vitae explicabo rerum
-          laudantium minima labore quo, quasi impedit quae similique maiores
-          nemo omnis assumenda!
-        </div>
+        <div>Feature in work :3</div>
       </Modal>
     </>
   );
