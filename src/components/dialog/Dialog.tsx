@@ -50,8 +50,8 @@ const Dialog: FC<DialogProps> = ({
         console.log("Получены данные: ", event.data);
       });
 
-      socket.addEventListener("error", (event: any) => {
-        console.log("Ошибка", event.message);
+      socket.addEventListener("error", (event) => {
+        console.log("Ошибка", event);
       });
     }
   }, [socket]);
