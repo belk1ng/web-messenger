@@ -1,13 +1,36 @@
-import React, { FC } from "react";
-import { ChatsAsideProps } from "./props";
+import React, { FC, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserSearch from "../user-search";
 import styles from "./ChatsAside.module.scss";
 import { APP_ROUTES } from "../../routes/routes";
 import Dialog from "../dialog";
 import Scrollbar from "../scrollbar";
+import ChatsAPI from "../../api/chats";
+import { ChatsAsideProps } from "./props";
+import { Chat } from "../../@types/chats";
 
 const ChatsAside: FC<ChatsAsideProps> = () => {
+  const [chats, setChats] = useState<Chat[]>([]);
+
+  const handleLoadChats = async () => {
+    const response = await ChatsAPI.getChats();
+
+    if (
+      response?.data &&
+      typeof response.data === "object" &&
+      response.status === 200 &&
+      !("reason" in response.data)
+    ) {
+      setChats(response.data);
+    } else {
+      console.log("Error: ", response?.data);
+    }
+  };
+
+  useEffect(() => {
+    handleLoadChats();
+  }, []);
+
   return (
     <aside className={styles.aside}>
       <section className={styles.aside__header}>
@@ -28,18 +51,18 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
       <section className={styles.aside__list}>
         <Scrollbar>
           <ul>
-            {Array(15)
-              .fill(null)
-              .map((_, index) => (
-                <li key={index}>
-                  <Dialog
-                    title="Title 1"
-                    message="Messege text here"
-                    unread={4}
-                    avatar="https://images.unsplash.com/photo-1477346611705-65d1883cee1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-                  />
-                </li>
-              ))}
+            {chats.map(({ id, title, last_message, avatar, unread_count }) => (
+              <li key={id}>
+                <Dialog
+                  id={id}
+                  title={title}
+                  message={last_message?.content}
+                  sentAt={last_message?.time}
+                  unread={unread_count}
+                  avatar={avatar}
+                />
+              </li>
+            ))}
           </ul>
         </Scrollbar>
       </section>
