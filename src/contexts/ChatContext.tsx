@@ -27,7 +27,7 @@ export type ChatConnectCallback = (chat: ChatContextChat, url: string) => void;
 
 export type ChatSendMessageCallback = (message: string) => void;
 
-export type ChatLoadMessagesCallback = (offset: string) => void;
+export type ChatLoadMessagesCallback = (offset: number) => void;
 
 export type ChatDisconnectCallback = VoidFunction;
 
@@ -72,8 +72,8 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     socketSend("message", message);
   };
 
-  const handleLoadOldMessages = (offset = "0") => {
-    socketSend("get old", offset);
+  const handleLoadOldMessages = (offset: number) => {
+    socketSend("get old", String(offset));
   };
 
   const handleChatConnect = (chat: ChatContextChat, url: string) => {
@@ -94,7 +94,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
       chatSocket.addEventListener("open", () => {
         console.log("Соединение установлено");
 
-        handleLoadOldMessages();
+        handleLoadOldMessages(0);
       });
 
       chatSocket.addEventListener("close", (event) => {

@@ -1,10 +1,9 @@
 import React, { forwardRef } from "react";
-import { ScollbarProps } from "./props";
-import Scrollbars from "react-custom-scrollbars-2";
+import Scrollbars, { ScrollbarProps } from "react-custom-scrollbars-2";
 import classnames from "classnames";
 import styles from "./Scrollbar.module.scss";
 
-const Scrollbar = forwardRef<Scrollbars, ScollbarProps>((props, ref) => {
+const Scrollbar = forwardRef<Scrollbars, ScrollbarProps>((props, ref) => {
   return (
     <Scrollbars
       ref={ref}
@@ -29,6 +28,7 @@ const Scrollbar = forwardRef<Scrollbars, ScollbarProps>((props, ref) => {
           )}
         />
       )}
+      renderView={(_props) => <div {..._props} onScroll={props?.onScroll} />}
     >
       {props.children}
     </Scrollbars>
