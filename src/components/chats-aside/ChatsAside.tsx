@@ -1,9 +1,10 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useContext } from "react";
+import { ChatContext } from "../../contexts/ChatContext";
 import { Link } from "react-router-dom";
 import UserSearch from "../user-search";
 import styles from "./ChatsAside.module.scss";
 import { APP_ROUTES } from "../../routes/routes";
-import Dialog from "../dialog";
+import { DialogList } from "../dialog";
 import Scrollbar from "../scrollbar";
 import ChatsAPI from "../../api/chats";
 import { ChatsAsideProps } from "./props";
@@ -11,6 +12,8 @@ import { Chat } from "../../@types/chats";
 
 const ChatsAside: FC<ChatsAsideProps> = () => {
   const [chats, setChats] = useState<Chat[]>([]);
+
+  const { handleChatConnect } = useContext(ChatContext);
 
   const handleLoadChats = async () => {
     const response = await ChatsAPI.getChats();
@@ -50,20 +53,7 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
       </section>
       <section className={styles.aside__list}>
         <Scrollbar>
-          <ul>
-            {chats.map(({ id, title, last_message, avatar, unread_count }) => (
-              <li key={id}>
-                <Dialog
-                  id={id}
-                  title={title}
-                  message={last_message?.content}
-                  sentAt={last_message?.time}
-                  unread={unread_count}
-                  avatar={avatar}
-                />
-              </li>
-            ))}
-          </ul>
+          <DialogList list={chats} handleChatConnect={handleChatConnect} />
         </Scrollbar>
       </section>
     </aside>

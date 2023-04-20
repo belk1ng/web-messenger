@@ -1,15 +1,19 @@
 @import "/src/assets/styles/variables.scss";
 
-#root {
-  width: 100vw;
-  min-height: 100vh;
+html {
+  overflow: hidden;
 
-  font-family: Inter;
-  font-weight: 500;
-  color: $black;
-
-  main {
+  #root {
     width: 100vw;
     min-height: 100vh;
+
+    font-family: Inter;
+    font-weight: 500;
+    color: $black;
+
+    main {
+      width: 100vw;
+      min-height: 100vh;
+    }
   }
 }

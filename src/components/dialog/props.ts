@@ -1,9 +1,14 @@
-export interface DialogProps {
-  id: number;
-  title: string;
-  avatar?: string | null;
-  message?: string;
-  sentAt?: string;
+import { Chat } from "../../@types/chats";
+import { ChatConnectCallback } from "../../contexts/ChatContext";
 
-  unread?: number;
-}
+type WithConnect = {
+  handleChatConnect: ChatConnectCallback;
+};
+
+export type DialogProps = {
+  dialog: Chat;
+} & WithConnect;
+
+export type DialogListProps = {
+  list: Chat[];
+} & WithConnect;
