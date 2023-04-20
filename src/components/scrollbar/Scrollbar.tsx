@@ -1,24 +1,28 @@
-import React, { FC } from "react";
-import Scrollbars from "react-custom-scrollbars-2";
+import React, { forwardRef } from "react";
 import { ScollbarProps } from "./props";
+import Scrollbars from "react-custom-scrollbars-2";
 import classnames from "classnames";
 import styles from "./Scrollbar.module.scss";
 
-const Scrollbar: FC<ScollbarProps> = ({ children }) => {
+const Scrollbar = forwardRef<Scrollbars, ScollbarProps>((props, ref) => {
   return (
     <Scrollbars
-      renderTrackVertical={(props) => (
+      ref={ref}
+      autoHide
+      autoHideTimeout={400}
+      autoHideDuration={500}
+      renderTrackVertical={(_props) => (
         <div
-          {...props}
+          {..._props}
           className={classnames(
             styles.scrollbar__track,
             styles["scrollbar__track--vertical"]
           )}
         />
       )}
-      renderThumbVertical={(props) => (
+      renderThumbVertical={(_props) => (
         <div
-          {...props}
+          {..._props}
           className={classnames(
             styles.scrollbar__thumb,
             styles["scrollbar__thumb--vertical"]
@@ -26,9 +30,11 @@ const Scrollbar: FC<ScollbarProps> = ({ children }) => {
         />
       )}
     >
-      {children}
+      {props.children}
     </Scrollbars>
   );
-};
+});
+
+Scrollbar.displayName = "CustomScrollbar";
 
 export default Scrollbar;

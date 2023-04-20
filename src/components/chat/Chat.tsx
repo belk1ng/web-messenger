@@ -1,11 +1,23 @@
-import React, { FC } from "react";
+import React, { FC, useRef, useContext, useEffect } from "react";
+import { ChatContext } from "../../contexts/ChatContext";
 import Scrollbar from "../scrollbar/Scrollbar";
+import Scrollbars from "react-custom-scrollbars-2";
 import Messages from "./messages/Messages";
 import MessageForm from "./message-form/MessageForm";
 import { ChatProps } from "./props";
 import styles from "./Chat.module.scss";
 
 const Chat: FC<ChatProps> = ({ chat }) => {
+  const scrollbarRef = useRef<Scrollbars>(null);
+
+  const { messages, activeChat } = useContext(ChatContext);
+
+  useEffect(() => {
+    if (scrollbarRef.current) {
+      scrollbarRef.current.scrollToBottom();
+    }
+  }, [messages, activeChat]);
+
   return (
     <section className={styles.chat}>
       <div className={styles.chat__header}>
@@ -20,7 +32,7 @@ const Chat: FC<ChatProps> = ({ chat }) => {
         <div className={styles.chat__actions}></div>
       </div>
       <div className={styles.chat__content}>
-        <Scrollbar>
+        <Scrollbar ref={scrollbarRef}>
           <Messages />
         </Scrollbar>
       </div>
