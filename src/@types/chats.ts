@@ -17,6 +17,17 @@ export interface Chat {
   last_message: ChatLastMessage | null;
 }
 
+export interface ChatMessage {
+  id: number;
+  user_id: number;
+  chat_id: number;
+  time: string;
+  type: "message" | "file";
+  content: string;
+  is_read?: boolean;
+  file?: File;
+}
+
 export enum CHATS_ENDPOINTS {
   "CHATS" = "/",
   "ARCHIVE" = "/archieve",

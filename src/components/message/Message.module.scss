@@ -1,0 +1,40 @@
+@import "/src/assets/styles/variables.scss";
+
+.message {
+  font-size: 12px;
+  line-height: 15px;
+
+  max-width: 65%;
+
+  padding: 11px;
+
+  &__time {
+    font-size: 9px;
+    line-height: 9px;
+
+    margin-top: 6px;
+    text-align: right;
+  }
+
+  &--mine {
+    align-self: flex-end;
+    background-color: $oceanic;
+
+    border-radius: 10px 10px 0 10px;
+
+    .message__time {
+      color: $blue;
+    }
+  }
+
+  &:not(&--mine) {
+    align-self: flex-start;
+    background-color: $message-grey-bg;
+
+    border-radius: 0 10px 10px 10px;
+
+    .message__time {
+      color: $grey;
+    }
+  }
+}

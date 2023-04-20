@@ -4,6 +4,7 @@ import useTitle from "../../hooks/useTitle";
 import { APP_TITLE } from "../../hooks/useTitle";
 import ChatsAside from "../../components/chats-aside";
 import styles from "./Chats.module.scss";
+import Chat from "../../components/chat/Chat";
 
 const ChatsPage = () => {
   useTitle(APP_TITLE.CHATS);
@@ -13,9 +14,10 @@ const ChatsPage = () => {
   return (
     <main className={styles.chats}>
       <ChatsAside />
+
       <section className={styles.chats__chat}>
         {activeChat ? (
-          <h5 className={styles.chats__trigger}>{activeChat.title}</h5>
+          <Chat chat={activeChat} />
         ) : (
           <h5 className={styles.chats__trigger}>
             Select a chat to start messaging

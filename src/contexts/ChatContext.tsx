@@ -1,5 +1,5 @@
 import React, { FC, createContext, useState, useEffect } from "react";
-import { Chat } from "../@types/chats";
+import { Chat, ChatMessage } from "../@types/chats";
 import { AuthUser } from "../@types/auth";
 
 interface ChatContextProps {
@@ -14,7 +14,8 @@ interface ChatContextValues {
   setChatSocket: (value: ChatContextSocket) => void;
 
   members: ChatContextMember[];
-  setMembers: (values: ChatContextMember[]) => void;
+
+  messages: ChatMessage[];
 
   handleChatConnect: ChatConnectCallback;
   handleSendMessage: ChatSendMessageCallback;
@@ -49,17 +50,51 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
 
   const [members, setMembers] = useState<ChatContextMember[]>([]);
 
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+
+  const socketSend = (
+    type: "message" | "get old" | "ping",
+    content?: string
+  ) => {
+    if (chatSocket && type !== "ping") {
+      chatSocket.send(
+        JSON.stringify({
+          type,
+          content,
+        })
+      );
+    } else if (chatSocket) {
+      chatSocket.send(JSON.stringify({ type }));
+    }
+  };
+
+  const handleSendMessage = (message: string) => {
+    socketSend("message", message);
+  };
+
+  const handleLoadOldMessages = (offset = "0") => {
+    socketSend("get old", offset);
+  };
+
+  const handleChatConnect = (chat: ChatContextChat, url: string) => {
+    if (chatSocket) {
+      chatSocket.close();
+    }
+
+    setActiveChat(chat);
+
+    const ws = new WebSocket(url);
+    setChatSocket(ws);
+  };
+
   useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+
     if (chatSocket) {
       chatSocket.addEventListener("open", () => {
         console.log("Соединение установлено");
 
-        chatSocket.send(
-          JSON.stringify({
-            content: "0",
-            type: "get old",
-          })
-        );
+        handleLoadOldMessages();
       });
 
       chatSocket.addEventListener("close", (event) => {
@@ -70,47 +105,51 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
         }
 
         console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+
         setChatSocket(null);
       });
 
-      chatSocket.addEventListener("message", (event) => {
-        console.log("Получены данные: ", event.data);
+      chatSocket.addEventListener("message", (event: MessageEvent<string>) => {
+        const socketData = JSON.parse(event.data);
+
+        console.log("Получены данные: ", socketData);
+
+        if (Array.isArray(socketData)) {
+          setMessages((prev) => [...socketData, ...prev]);
+        }
+
+        if (socketData.type === "message") {
+          setMessages((prev) => [socketData, ...prev]);
+        }
       });
 
       chatSocket.addEventListener("error", (event) => {
         console.log("Ошибка", event);
       });
+
+      interval = setInterval(() => {
+        socketSend("ping");
+      }, 5000);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [chatSocket]);
+
+  useEffect(() => {
+    if (!activeChat) {
+      setMembers([]);
+      setActiveChat(null);
     }
   }, [chatSocket]);
 
-  const handleChatConnect = (chat: ChatContextChat, url: string) => {
-    setActiveChat(chat);
-
-    const ws = new WebSocket(url);
-    setChatSocket(ws);
-  };
-
-  const handleSendMessage = (message: string) => {
-    if (chatSocket) {
-      chatSocket.send(
-        JSON.stringify({
-          type: "message",
-          content: message,
-        })
-      );
-    }
-  };
-
-  const handleLoadOldMessages = (offset = "0") => {
-    if (chatSocket) {
-      chatSocket.send(JSON.stringify({ type: "get old", content: offset }));
-    }
-  };
+  useEffect(() => {
+    setMessages([]);
+  }, [activeChat]);
 
   const handleChatDisconnect = () => {
     setActiveChat(null);
-    setChatSocket(null);
-    setMembers([]);
   };
 
   const value = {
@@ -119,7 +158,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     chatSocket,
     setChatSocket,
     members,
-    setMembers,
+    messages,
     handleChatConnect,
     handleSendMessage,
     handleLoadOldMessages,
