@@ -10,7 +10,7 @@ import styles from "./Chat.module.scss";
 const Chat: FC<ChatProps> = ({ chat }) => {
   const scrollbarRef = useRef<Scrollbars>(null);
 
-  const { messages, activeChat } = useContext(ChatContext);
+  const { messages, chat: activeChat } = useContext(ChatContext);
 
   useEffect(() => {
     if (scrollbarRef.current) {

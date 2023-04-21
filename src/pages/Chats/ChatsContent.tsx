@@ -9,15 +9,15 @@ import Chat from "../../components/chat/Chat";
 const ChatsPage = () => {
   useTitle(APP_TITLE.CHATS);
 
-  const { activeChat } = useContext(ChatContext);
+  const { chat } = useContext(ChatContext);
 
   return (
     <main className={styles.chats}>
       <ChatsAside />
 
       <section className={styles.chats__chat}>
-        {activeChat ? (
-          <Chat chat={activeChat} />
+        {chat ? (
+          <Chat chat={chat} />
         ) : (
           <h5 className={styles.chats__trigger}>
             Select a chat to start messaging

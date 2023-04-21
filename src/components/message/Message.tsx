@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import useAuth from "../../hooks/useAuth";
 import { MessageProps } from "./props";
 import styles from "./Message.module.scss";
@@ -22,4 +22,4 @@ const Message: FC<MessageProps> = ({ message }) => {
   );
 };
 
-export default Message;
+export default memo(Message);
