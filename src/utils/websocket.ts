@@ -30,7 +30,7 @@ class WebSocketClient {
 
   private _clearPingInterval() {
     if (this._interval) {
-      this._interval && clearInterval(this._interval);
+      clearInterval(this._interval);
       this._interval = null;
     }
   }

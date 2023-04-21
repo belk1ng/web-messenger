@@ -1,8 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, useContext, memo } from "react";
+import { ChatContext } from "../../contexts/ChatContext";
 import Dialog from "./Dialog";
 import { DialogListProps } from "./props";
 
-const DialogList: FC<DialogListProps> = ({ list, handleChatConnect }) => {
+const DialogList: FC<DialogListProps> = ({ list }) => {
+  const { handleChatConnect } = useContext(ChatContext);
+
   return (
     <ul>
       {list.map((dialog) => (
@@ -14,4 +17,4 @@ const DialogList: FC<DialogListProps> = ({ list, handleChatConnect }) => {
   );
 };
 
-export default DialogList;
+export default memo(DialogList);

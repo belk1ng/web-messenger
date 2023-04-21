@@ -66,6 +66,8 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
 
   const messages = useMemo(() => chatMessages, [chatMessages]);
 
+  // Ws manage callbacks
+
   const handleSendMessage = useCallback(
     (message: string) => {
       chatSocket?.send("message", message);
@@ -107,6 +109,8 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     [chatSocket, handleChatDisconnect]
   );
 
+  // Ws event listeners' callbacks
+
   const _handleSocketOpen = () => {
     console.log("Ws connection established");
     handleLoadOldMessages(0);
@@ -118,8 +122,6 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     } else {
       console.log("Lost ws connection");
     }
-
-    setChatSocket(null);
   };
 
   const _handleSocketMessage = (event: MessageEvent) => {
@@ -140,19 +142,15 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     console.log("Ws error: ", event);
   };
 
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
+  // Configuring new ws connection
 
+  useEffect(() => {
     if (chatSocket) {
       chatSocket.on("open", _handleSocketOpen);
       chatSocket.on("message", _handleSocketMessage as EventListener);
       chatSocket.on("close", _handleSocketClose as EventListener);
       chatSocket.on("error", _handleSocketError);
     }
-
-    return () => {
-      clearInterval(interval);
-    };
   }, [chatSocket]);
 
   const value = useMemo(

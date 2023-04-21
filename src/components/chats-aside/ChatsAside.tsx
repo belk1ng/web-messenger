@@ -1,5 +1,4 @@
-import React, { FC, useState, useEffect, useContext } from "react";
-import { ChatContext } from "../../contexts/ChatContext";
+import React, { FC, useState, useEffect, memo } from "react";
 import { Link } from "react-router-dom";
 import UserSearch from "../user-search";
 import styles from "./ChatsAside.module.scss";
@@ -12,8 +11,6 @@ import { Chat } from "../../@types/chats";
 
 const ChatsAside: FC<ChatsAsideProps> = () => {
   const [chats, setChats] = useState<Chat[]>([]);
-
-  const { handleChatConnect } = useContext(ChatContext);
 
   const handleLoadChats = async () => {
     const response = await ChatsAPI.getChats();
@@ -53,11 +50,11 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
       </section>
       <section className={styles.aside__list}>
         <Scrollbar>
-          <DialogList list={chats} handleChatConnect={handleChatConnect} />
+          <DialogList list={chats} />
         </Scrollbar>
       </section>
     </aside>
   );
 };
 
-export default ChatsAside;
+export default memo(ChatsAside);

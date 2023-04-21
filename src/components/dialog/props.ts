@@ -11,4 +11,4 @@ export type DialogProps = {
 
 export type DialogListProps = {
   list: Chat[];
-} & WithConnect;
+};
