@@ -28,4 +28,27 @@
       font-size: 12px;
     }
   }
+
+  &__submit {
+    padding: 0;
+
+    cursor: pointer;
+
+    background-color: transparent;
+
+    border-radius: 50%;
+    border: 0;
+
+    svg {
+      transform: rotate(180deg);
+    }
+
+    circle {
+      transition: fill 0.25s ease;
+    }
+
+    &:hover circle {
+      fill: $blue-hover;
+    }
+  }
 }
