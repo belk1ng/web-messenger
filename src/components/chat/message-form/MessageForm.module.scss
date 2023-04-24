@@ -1,0 +1,54 @@
+@import "/src/assets/styles/variables.scss";
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  &__input {
+    flex: 1;
+
+    font-size: 12px;
+
+    border: 0;
+    border-radius: 30px;
+
+    padding: 7px 20px;
+
+    background-color: $lightgrey;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: $grey;
+      font-size: 12px;
+    }
+  }
+
+  &__submit {
+    padding: 0;
+
+    cursor: pointer;
+
+    background-color: transparent;
+
+    border-radius: 50%;
+    border: 0;
+
+    svg {
+      transform: rotate(180deg);
+    }
+
+    circle {
+      transition: fill 0.25s ease;
+    }
+
+    &:hover circle {
+      fill: $blue-hover;
+    }
+  }
+}

@@ -4,6 +4,8 @@ import { useRoutes } from "react-router-dom";
 import AuthGuard from "./AuthGuard";
 import GuestGuard from "./GuestGuard";
 
+import ChatContextProvider from "../contexts/ChatContext";
+
 import {
   LoginPage,
   RegistrationPage,
@@ -38,7 +40,9 @@ const Router = () => {
       path: APP_ROUTES.CHATS,
       element: (
         <AuthGuard>
-          <ChatsPage />
+          <ChatContextProvider>
+            <ChatsPage />
+          </ChatContextProvider>
         </AuthGuard>
       ),
     },

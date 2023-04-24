@@ -23,7 +23,7 @@ const useInput = ({ name, value, error, validationRule, onChange }: Props) => {
   }, [error, value]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(name)(event);
+    onChange && onChange(name)(event);
   };
 
   const handleFocus = () => {
@@ -31,10 +31,12 @@ const useInput = ({ name, value, error, validationRule, onChange }: Props) => {
   };
 
   const handleBlur = () => {
-    const { isValid, message } = validate(inputValue, validationRule);
+    if (validationRule) {
+      const { isValid, message } = validate(inputValue, validationRule);
 
-    if (!isValid) {
-      setInputError(message);
+      if (!isValid) {
+        setInputError(message);
+      }
     }
   };
 

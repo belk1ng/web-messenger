@@ -1,7 +1,9 @@
-export interface DialogProps {
-  title: string;
-  avatar?: string;
-  message: string;
+import { Chat } from "../../@types/chats";
 
-  unread?: number;
-}
+export type DialogProps = {
+  dialog: Chat;
+};
+
+export type DialogListProps = {
+  list: Chat[];
+};

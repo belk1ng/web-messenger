@@ -13,6 +13,10 @@
 
   transition: background-color 0.25s ease;
 
+  &--active {
+    background-color: $oceanic;
+  }
+
   &:hover {
     background-color: $oceanic;
   }
@@ -58,6 +62,10 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
+  }
+
+  &__sender {
+    color: $black;
   }
 
   &__date {
