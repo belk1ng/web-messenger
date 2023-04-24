@@ -32,6 +32,8 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
       handleLoadChats();
     }, 10_000);
 
+    handleLoadChats();
+
     return () => {
       clearInterval(interval);
     };

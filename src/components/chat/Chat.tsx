@@ -1,4 +1,4 @@
-import React, { FC, useRef, useContext, useEffect } from "react";
+import React, { FC, MouseEvent, useRef, useContext, useEffect } from "react";
 import { ChatContext } from "../../contexts/ChatContext";
 import Scrollbar from "../scrollbar/Scrollbar";
 import Scrollbars from "react-custom-scrollbars-2";
@@ -10,9 +10,17 @@ import styles from "./Chat.module.scss";
 const Chat: FC<ChatProps> = ({ chat }) => {
   const scrollbarRef = useRef<Scrollbars>(null);
 
-  const chatInitialized = useRef<boolean>(false);
+  const chatInitialized = useRef(false);
 
-  const { messages, chat: activeChat } = useContext(ChatContext);
+  const isLoading = useRef(false);
+
+  const {
+    messages,
+    chat: activeChat,
+    handleLoadOldMessages,
+    handleChatDisconnect,
+    socket,
+  } = useContext(ChatContext);
 
   useEffect(() => {
     if (scrollbarRef.current) {
@@ -35,7 +43,42 @@ const Chat: FC<ChatProps> = ({ chat }) => {
     } else {
       chatInitialized.current = false;
     }
+
+    isLoading.current = false;
   }, [messages, activeChat]);
+
+  useEffect(() => {
+    const _handlePressEscape = function (event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        console.log("Press esc");
+        handleChatDisconnect();
+      }
+    };
+
+    document.addEventListener("keydown", _handlePressEscape);
+
+    return () => {
+      document.removeEventListener("keydown", _handlePressEscape);
+    };
+  }, []);
+
+  const handleScroll = (event: MouseEvent<HTMLDivElement>) => {
+    const _target = event.target as Element;
+
+    if (
+      _target &&
+      _target.scrollTop <= 250 &&
+      !isLoading.current &&
+      socket?.socket?.readyState
+    ) {
+      _handleLoadPrevMessages();
+    }
+  };
+
+  const _handleLoadPrevMessages = () => {
+    isLoading.current = true;
+    handleLoadOldMessages();
+  };
 
   return (
     <section className={styles.chat}>
@@ -51,7 +94,7 @@ const Chat: FC<ChatProps> = ({ chat }) => {
         <div className={styles.chat__actions}></div>
       </div>
       <div className={styles.chat__content}>
-        <Scrollbar ref={scrollbarRef}>
+        <Scrollbar ref={scrollbarRef} onScroll={handleScroll}>
           <Messages />
         </Scrollbar>
       </div>

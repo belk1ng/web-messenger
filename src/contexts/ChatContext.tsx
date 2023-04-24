@@ -2,6 +2,7 @@ import React, {
   FC,
   createContext,
   useState,
+  useRef,
   useEffect,
   useMemo,
   useCallback,
@@ -33,7 +34,7 @@ export type ChatConnectCallback = (chat: ChatContextChat, url: string) => void;
 
 export type ChatSendMessageCallback = (message: string) => void;
 
-export type ChatLoadMessagesCallback = (offset: number) => void;
+export type ChatLoadMessagesCallback = VoidFunction;
 
 export type ChatDisconnectCallback = VoidFunction;
 
@@ -66,6 +67,10 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
 
   const messages = useMemo(() => chatMessages, [chatMessages]);
 
+  const messagesOffset = useRef(0);
+
+  const messagesStopLoading = useRef(false);
+
   // Ws manage callbacks
 
   const handleSendMessage = useCallback(
@@ -75,16 +80,18 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     [chatSocket]
   );
 
-  const handleLoadOldMessages = useCallback(
-    (offset: number) => {
-      chatSocket?.send("get old", String(offset));
-    },
-    [chatSocket]
-  );
+  const handleLoadOldMessages = useCallback(() => {
+    if (!messagesStopLoading.current) {
+      chatSocket?.send("get old", String(messagesOffset.current));
+    }
+
+    messagesOffset.current += 20;
+  }, [chatSocket]);
 
   const handleChatDisconnect = useCallback(() => {
     if (chatSocket) {
       chatSocket.disconnect();
+      setActiveChat(null);
     }
   }, [chatSocket]);
 
@@ -106,14 +113,15 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
       const ws = new WebSocketClient().connect(url);
       setChatSocket(ws);
     },
-    [chatSocket, handleChatDisconnect]
+    [chatSocket, handleChatDisconnect, activeChat]
   );
 
   // Ws event listeners' callbacks
 
   const _handleSocketOpen = () => {
     console.log("Ws connection established");
-    handleLoadOldMessages(0);
+
+    handleLoadOldMessages();
   };
 
   const _handleSocketClose = (event: CloseEvent) => {
@@ -129,8 +137,10 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
 
     console.log("Received ws data: ", values);
 
-    if (Array.isArray(values)) {
-      setChatMessages((prev) => [...values, ...prev]);
+    if (Array.isArray(values) && values.length > 0) {
+      setChatMessages((prev) => [...prev, ...values]);
+    } else if (Array.isArray(values)) {
+      messagesStopLoading.current = true;
     }
 
     if (values.type === "message") {
@@ -150,6 +160,10 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
       chatSocket.on("message", _handleSocketMessage as EventListener);
       chatSocket.on("close", _handleSocketClose as EventListener);
       chatSocket.on("error", _handleSocketError);
+
+      // Reset socket based variables
+      messagesStopLoading.current = false;
+      messagesOffset.current = 0;
     }
   }, [chatSocket]);
 

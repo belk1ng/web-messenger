@@ -6,6 +6,7 @@ import styles from "./Scrollbar.module.scss";
 const Scrollbar = forwardRef<Scrollbars, ScrollbarProps>((props, ref) => {
   return (
     <Scrollbars
+      {...props}
       ref={ref}
       autoHide
       autoHideTimeout={400}
