@@ -14,7 +14,15 @@ const Chat: FC<ChatProps> = ({ chat }) => {
 
   useEffect(() => {
     if (scrollbarRef.current) {
-      scrollbarRef.current.scrollToBottom();
+      const _scrollTop = scrollbarRef.current.getScrollTop();
+      const _clientHeight = scrollbarRef.current.getClientHeight();
+      const _scrollHeight = scrollbarRef.current.getScrollHeight();
+
+      const DELTA = 120;
+
+      if (_scrollTop + _clientHeight + DELTA > _scrollHeight) {
+        scrollbarRef.current.scrollToBottom();
+      }
     }
   }, [messages, activeChat]);
 
