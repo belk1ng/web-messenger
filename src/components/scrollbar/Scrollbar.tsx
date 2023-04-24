@@ -10,6 +10,7 @@ const Scrollbar = forwardRef<Scrollbars, ScrollbarProps>((props, ref) => {
       autoHide
       autoHideTimeout={400}
       autoHideDuration={500}
+      hideTracksWhenNotNeeded
       renderTrackVertical={(_props) => (
         <div
           {..._props}
