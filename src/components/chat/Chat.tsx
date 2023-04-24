@@ -50,7 +50,6 @@ const Chat: FC<ChatProps> = ({ chat }) => {
   useEffect(() => {
     const _handlePressEscape = function (event: KeyboardEvent) {
       if (event.key === "Escape") {
-        console.log("Press esc");
         handleChatDisconnect();
       }
     };
