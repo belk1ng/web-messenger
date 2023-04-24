@@ -1,4 +1,11 @@
-import React, { FC, createContext, useState, useEffect } from "react";
+import React, {
+  FC,
+  createContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import AuthAPI from "../api/auth";
 import { AuthUser, AuthContextUser } from "../@types/auth";
 
@@ -29,14 +36,16 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
 
   const [isInit, setInit] = useState(false);
 
-  const getUserInfo = async () => {
+  const _user = useMemo(() => user, [user]);
+
+  const getUserInfo = useCallback(async () => {
     const response = await AuthAPI.getUser();
 
     if (response && response.status === 200) {
       setUser(response.data as AuthContextUser);
       setAuth(true);
     }
-  };
+  }, []);
 
   const _init = async () => {
     await getUserInfo();
@@ -47,14 +56,17 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
     _init();
   }, []);
 
-  const value = {
-    isInit,
-    isAuth,
-    setAuth,
-    user,
-    setUser,
-    getUserInfo,
-  };
+  const value = useMemo(
+    () => ({
+      isInit,
+      isAuth,
+      setAuth,
+      user: _user,
+      setUser,
+      getUserInfo,
+    }),
+    [isInit, isAuth, user]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
