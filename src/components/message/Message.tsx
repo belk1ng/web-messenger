@@ -3,7 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import { MessageProps } from "./props";
 import styles from "./Message.module.scss";
 import classnames from "classnames";
-import timeAgo from "../../utils/timeAgo";
+import sentAt from "../../utils/sentAt";
 
 const Message: FC<MessageProps> = ({ message }) => {
   const { user } = useAuth();
@@ -17,7 +17,7 @@ const Message: FC<MessageProps> = ({ message }) => {
     >
       {message.content}
 
-      <p className={styles.message__time}>{timeAgo(message.time)}</p>
+      <p className={styles.message__time}>{sentAt(message.time)}</p>
     </div>
   );
 };

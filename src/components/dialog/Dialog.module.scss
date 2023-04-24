@@ -64,6 +64,10 @@
     overflow: hidden;
   }
 
+  &__sender {
+    color: $black;
+  }
+
   &__date {
     font-size: 9px;
     line-height: 13px;
