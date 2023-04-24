@@ -167,7 +167,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
 
       setActiveChat,
     }),
-    [activeChat, chatSocket, members, messages]
+    [chat, socket, members, messages]
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

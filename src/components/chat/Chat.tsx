@@ -10,6 +10,8 @@ import styles from "./Chat.module.scss";
 const Chat: FC<ChatProps> = ({ chat }) => {
   const scrollbarRef = useRef<Scrollbars>(null);
 
+  const chatInitialized = useRef<boolean>(false);
+
   const { messages, chat: activeChat } = useContext(ChatContext);
 
   useEffect(() => {
@@ -20,9 +22,18 @@ const Chat: FC<ChatProps> = ({ chat }) => {
 
       const DELTA = 120;
 
-      if (_scrollTop + _clientHeight + DELTA > _scrollHeight) {
+      const isScrollAtBottom =
+        _scrollTop + _clientHeight + DELTA > _scrollHeight;
+
+      if (isScrollAtBottom || !chatInitialized.current) {
         scrollbarRef.current.scrollToBottom();
       }
+    }
+
+    if (activeChat && messages.length > 0) {
+      chatInitialized.current = true;
+    } else {
+      chatInitialized.current = false;
     }
   }, [messages, activeChat]);
 

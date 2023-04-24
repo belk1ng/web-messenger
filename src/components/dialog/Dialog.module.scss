@@ -13,6 +13,10 @@
 
   transition: background-color 0.25s ease;
 
+  &--active {
+    background-color: $oceanic;
+  }
+
   &:hover {
     background-color: $oceanic;
   }

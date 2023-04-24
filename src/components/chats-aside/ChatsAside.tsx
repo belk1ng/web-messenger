@@ -28,7 +28,13 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
   };
 
   useEffect(() => {
-    handleLoadChats();
+    const interval = setInterval(() => {
+      handleLoadChats();
+    }, 10_000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (

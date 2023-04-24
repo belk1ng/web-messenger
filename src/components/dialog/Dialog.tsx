@@ -1,12 +1,16 @@
-import React, { FC, memo } from "react";
+import React, { FC, useContext, memo } from "react";
+import { ChatContext } from "../../contexts/ChatContext";
 import useAuth from "../../hooks/useAuth";
 import styles from "./Dialog.module.scss";
+import classnames from "classnames";
 import { DialogProps } from "./props";
 import timeAgo from "../../utils/timeAgo";
 import ChatsAPI from "../../api/chats";
 
-const Dialog: FC<DialogProps> = ({ dialog, handleChatConnect }) => {
+const Dialog: FC<DialogProps> = ({ dialog }) => {
   const { user } = useAuth();
+
+  const { handleChatConnect, chat } = useContext(ChatContext);
 
   const { id, avatar, title, last_message, unread_count } = dialog;
 
@@ -28,7 +32,13 @@ const Dialog: FC<DialogProps> = ({ dialog, handleChatConnect }) => {
   };
 
   return (
-    <div className={styles.dialog} onClick={handleDialogClick}>
+    <div
+      className={classnames(
+        styles.dialog,
+        chat?.id === id && styles["dialog--active"]
+      )}
+      onClick={handleDialogClick}
+    >
       <img
         className={styles.dialog__avatar}
         alt="chat-avatar"
