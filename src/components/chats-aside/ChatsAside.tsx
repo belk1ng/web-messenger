@@ -10,7 +10,7 @@ import { ChatsAsideProps } from "./props";
 import { Chat } from "../../@types/chats";
 
 const ChatsAside: FC<ChatsAsideProps> = () => {
-  const [chats, setChats] = useState<Chat[]>([]);
+  const [chats, setChats] = useState<Chat[]>(Array(15).fill(null));
 
   const handleLoadChats = async () => {
     const response = await ChatsAPI.getChats();
