@@ -39,7 +39,9 @@ const Messages = () => {
       }
     });
 
-    addDate(prevMessageDay, `start_day`);
+    if (messages.length > 0) {
+      addDate(prevMessageDay, `start_day`);
+    }
 
     return _messages;
   }, [messages]);
