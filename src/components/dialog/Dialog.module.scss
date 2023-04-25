@@ -1,6 +1,12 @@
 @import "/src/assets/styles/variables.scss";
 @import "/src/assets/styles/mixins.scss";
 
+@mixin avatar {
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+}
+
 .dialog {
   display: flex;
   justify-content: space-between;
@@ -95,8 +101,45 @@
   }
 
   &__avatar {
-    width: 47px;
-    height: 47px;
-    border-radius: 50%;
+    @include avatar;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(0%, 0%, 94%);
+  }
+  100% {
+    background-color: hsl(0%, 0%, 87%);
+  }
+}
+
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 8px 10px;
+
+    border-bottom: 1px solid $separator-color;
+  }
+
+  &__mock {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  &__line {
+    height: 12px;
+  }
+
+  &__circle {
+    @include avatar;
   }
 }
