@@ -59,7 +59,7 @@ const Chat: FC<ChatProps> = ({ chat }) => {
     return () => {
       document.removeEventListener("keydown", _handlePressEscape);
     };
-  }, [socket]);
+  }, [handleChatDisconnect]);
 
   const handleScroll = (event: MouseEvent<HTMLDivElement>) => {
     const _target = event.target as Element;
