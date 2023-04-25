@@ -48,18 +48,18 @@ const Chat: FC<ChatProps> = ({ chat }) => {
   }, [messages, activeChat]);
 
   useEffect(() => {
-    const _handlePressEscape = function (event: KeyboardEvent) {
+    function _handlePressEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         handleChatDisconnect();
       }
-    };
+    }
 
     document.addEventListener("keydown", _handlePressEscape);
 
     return () => {
       document.removeEventListener("keydown", _handlePressEscape);
     };
-  }, []);
+  }, [socket]);
 
   const handleScroll = (event: MouseEvent<HTMLDivElement>) => {
     const _target = event.target as Element;

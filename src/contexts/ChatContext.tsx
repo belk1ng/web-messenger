@@ -92,6 +92,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     if (chatSocket) {
       chatSocket.disconnect();
       setActiveChat(null);
+      setChatSocket(null);
     }
   }, [chatSocket]);
 
