@@ -26,7 +26,7 @@ import { APP_TITLE } from "../hooks/useTitle";
 import { RegistrationValues } from "../@types/auth";
 import AuthAPI from "../api/auth";
 
-const RegistragionPage = () => {
+const RegistrationPage = () => {
   useTitle(APP_TITLE.REGISTRATION);
 
   const navigate = useNavigate();
@@ -208,11 +208,7 @@ const RegistragionPage = () => {
             styles["auth__actions--register"]
           )}
         >
-          <Button
-            variant="button"
-            text="Create account"
-            modificator="primary"
-          />
+          <Button variant="button" text="Create account" modifier="primary" />
           <Button variant="link" text="Sign In" href={APP_ROUTES.LOGIN} />
         </div>
       </form>
@@ -220,4 +216,4 @@ const RegistragionPage = () => {
   );
 };
 
-export default RegistragionPage;
+export default RegistrationPage;

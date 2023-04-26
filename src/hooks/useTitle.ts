@@ -8,7 +8,7 @@ export enum APP_TITLE {
   "PROFILE_EDIT_PASSWORD" = "Change password | ",
   "CHATS" = "Chats | ",
   "NOT_FOUND" = "Not found | ",
-  "UNATHORIZED" = "Unauthorized | ",
+  "UNAUTHORIZED" = "Unauthorized | ",
 }
 
 const useTitle = (page: APP_TITLE) => {

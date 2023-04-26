@@ -38,9 +38,9 @@ export type ChatLoadMessagesCallback = VoidFunction;
 
 export type ChatDisconnectCallback = VoidFunction;
 
-export type ChatContextChat = Chat | null;
+export type ChatContextChat = Nullable<Chat>;
 
-export type ChatContextSocket = WebSocketClient | null;
+export type ChatContextSocket = Nullable<WebSocketClient>;
 
 export type ChatContextMember = AuthUser & {
   role: "admin" | "regular";

@@ -9,7 +9,7 @@ const Button: FC<ButtonProps> = ({
   variant,
   text,
   href,
-  modificator,
+  modifier,
   onClick,
 }) => {
   const handleClick = (event: MouseEvent) => {
@@ -23,7 +23,7 @@ const Button: FC<ButtonProps> = ({
       <button
         className={classnames(
           styles.button,
-          modificator && styles[`button--${modificator}`]
+          modifier && styles[`button--${modifier}`]
         )}
         type="submit"
         onClick={onClick && handleClick}
@@ -38,7 +38,7 @@ const Button: FC<ButtonProps> = ({
       to={href ? href : "/"}
       className={classnames(
         styles.button,
-        modificator && styles[`button--${modificator}`]
+        modifier && styles[`button--${modifier}`]
       )}
       onClick={onClick && handleClick}
     >

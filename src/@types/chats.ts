@@ -11,10 +11,10 @@ interface ChatLastMessage {
 export interface Chat {
   id: number;
   title: string;
-  avatar: string | null;
+  avatar: Nullable<string>;
   unread_count: number;
 
-  last_message: ChatLastMessage | null;
+  last_message: Nullable<ChatLastMessage>;
 }
 
 export interface ChatMessage {
@@ -30,8 +30,8 @@ export interface ChatMessage {
 
 export enum CHATS_ENDPOINTS {
   "CHATS" = "/",
-  "ARCHIVE" = "/archieve",
-  "UNARCHIVE" = "/unarchieve",
+  "ARCHIVE" = "/archive",
+  "UNARCHIVE" = "/unarchive",
   "USERS" = "/users",
   "AVATAR" = "/avatar",
 }

@@ -107,7 +107,7 @@ const LoginPage = () => {
             styles["auth__actions--login"]
           )}
         >
-          <Button variant="button" text="Sign In" modificator="primary" />
+          <Button variant="button" text="Sign In" modifier="primary" />
           <Button
             variant="link"
             text="Create account"

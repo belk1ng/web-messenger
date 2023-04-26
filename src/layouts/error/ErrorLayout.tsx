@@ -28,7 +28,7 @@ const ErrorLayout: FC<ErrorLayoutProps> = ({
         variant="button"
         text="Go back"
         onClick={handleGoBack}
-        modificator="primary"
+        modifier="primary"
       />
     </main>
   );
