@@ -1,5 +1,7 @@
 import React, {
   FC,
+  Dispatch,
+  SetStateAction,
   createContext,
   useState,
   useEffect,
@@ -17,10 +19,10 @@ interface AuthContextValues {
   isInit: boolean;
 
   user: null | AuthUser;
-  setUser: (user: AuthContextUser) => void;
+  setUser: Dispatch<SetStateAction<AuthContextUser>>;
 
   isAuth: boolean;
-  setAuth: (value: boolean) => void;
+  setAuth: Dispatch<SetStateAction<boolean>>;
 
   getUserInfo: () => Promise<void>;
 }

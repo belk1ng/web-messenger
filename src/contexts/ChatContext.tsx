@@ -1,5 +1,7 @@
 import React, {
   FC,
+  Dispatch,
+  SetStateAction,
   createContext,
   useState,
   useRef,
@@ -17,12 +19,12 @@ interface ChatContextProps {
 }
 
 interface ChatContextValues {
-  chat: ChatContextChat;
-  socket: ChatContextSocket;
-  members: ChatContextMember[];
+  chat: ActiveChat;
+  socket: ChatSocket;
+  members: ChatMember[];
   messages: ChatMessage[];
 
-  setActiveChat: (value: ChatContextChat) => void;
+  setActiveChat: Dispatch<SetStateAction<ActiveChat>>;
 
   handleChatConnect: ChatConnectCallback;
   handleSendMessage: ChatSendMessageCallback;
@@ -30,7 +32,7 @@ interface ChatContextValues {
   handleChatDisconnect: ChatDisconnectCallback;
 }
 
-export type ChatConnectCallback = (chat: ChatContextChat, url: string) => void;
+export type ChatConnectCallback = (chat: ActiveChat, url: string) => void;
 
 export type ChatSendMessageCallback = (message: string) => void;
 
@@ -38,11 +40,11 @@ export type ChatLoadMessagesCallback = VoidFunction;
 
 export type ChatDisconnectCallback = VoidFunction;
 
-export type ChatContextChat = Nullable<Chat>;
+export type ActiveChat = Nullable<Chat>;
 
-export type ChatContextSocket = Nullable<WebSocketClient>;
+export type ChatSocket = Nullable<WebSocketClient>;
 
-export type ChatContextMember = AuthUser & {
+export type ChatMember = AuthUser & {
   role: "admin" | "regular";
 };
 
@@ -51,11 +53,11 @@ export const ChatContext = createContext<ChatContextValues>(
 );
 
 const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
-  const [activeChat, setActiveChat] = useState<ChatContextChat>(null);
+  const [activeChat, setActiveChat] = useState<ActiveChat>(null);
 
-  const [chatSocket, setChatSocket] = useState<ChatContextSocket>(null);
+  const [chatSocket, setChatSocket] = useState<ChatSocket>(null);
 
-  const [chatMembers, setChatMembers] = useState<ChatContextMember[]>([]);
+  const [chatMembers, setChatMembers] = useState<ChatMember[]>([]);
 
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
@@ -96,25 +98,29 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     }
   }, [chatSocket]);
 
+  const _clearPreviousChatConnection = useCallback(() => {
+    setChatMessages([]);
+    setChatMembers([]);
+
+    if (chatSocket) {
+      handleChatDisconnect();
+    }
+  }, [chatSocket, handleChatDisconnect]);
+
   const handleChatConnect = useCallback(
-    (chat: ChatContextChat, url: string) => {
+    (chat: ActiveChat, url: string) => {
       if (activeChat && activeChat.id === chat?.id) {
         return;
       }
 
-      setChatMessages([]);
-      setChatMembers([]);
-
-      if (chatSocket) {
-        handleChatDisconnect();
-      }
+      _clearPreviousChatConnection();
 
       setActiveChat(chat);
 
       const ws = new WebSocketClient().connect(url);
       setChatSocket(ws);
     },
-    [chatSocket, handleChatDisconnect, activeChat]
+    [chatSocket, handleChatDisconnect, activeChat, _clearPreviousChatConnection]
   );
 
   // Ws event listeners' callbacks
@@ -138,9 +144,11 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
 
     console.log("Received ws data: ", values);
 
-    if (Array.isArray(values) && values.length > 0) {
+    const valuesIsArray = Array.isArray(values);
+
+    if (valuesIsArray && values.length > 0) {
       setChatMessages((prev) => [...prev, ...values]);
-    } else if (Array.isArray(values)) {
+    } else if (valuesIsArray) {
       messagesStopLoading.current = true;
     }
 

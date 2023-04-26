@@ -26,7 +26,7 @@ export type RegistrationValues = Omit<
 export type ProfileEditValues = Omit<User, "id" | "avatar" | "password">;
 
 export enum AUTH_ENDPOINTS {
-  "LOGIN" = "/login",
+  "LOGIN" = "/signin",
   "LOGOUT" = "/logout",
   "REGISTRATION" = "/signup",
   "USER_INFO" = "/user",
