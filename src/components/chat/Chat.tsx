@@ -1,5 +1,7 @@
 import React, { FC, MouseEvent, useRef, useContext, useEffect } from "react";
 import { ChatContext } from "../../contexts/ChatContext";
+import Dropdown from "../dropdown";
+import DropdownItem from "../dropdown-item";
 import Scrollbar from "../scrollbar/Scrollbar";
 import Scrollbars from "react-custom-scrollbars-2";
 import Messages from "./messages/Messages";
@@ -90,7 +92,19 @@ const Chat: FC<ChatProps> = ({ chat }) => {
           />
           <h3 className={styles.chat__title}>{chat.title}</h3>
         </div>
-        <div className={styles.chat__actions}></div>
+        <div className={styles.chat__actions}>
+          <Dropdown>
+            <DropdownItem
+              text="Add user"
+              callback={() => console.log("add user")}
+            />
+            <DropdownItem
+              modifier="danger"
+              text="Remove user"
+              callback={() => console.log("remove user")}
+            />
+          </Dropdown>
+        </div>
       </div>
       <div className={styles.chat__content}>
         <Scrollbar ref={scrollbarRef} onScroll={handleScroll}>

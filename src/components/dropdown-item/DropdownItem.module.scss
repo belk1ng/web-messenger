@@ -1,0 +1,22 @@
+@import "/src/assets/styles/variables.scss";
+
+.item {
+  font-size: 12px;
+  line-height: 14px;
+
+  cursor: pointer;
+
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+
+  transition: color 0.25s ease;
+
+  &--default:hover {
+    color: $blue;
+  }
+
+  &--danger:hover {
+    color: $error;
+  }
+}
