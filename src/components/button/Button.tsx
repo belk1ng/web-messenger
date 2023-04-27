@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent } from "react";
 import { Link } from "react-router-dom";
-import { ButtonProps } from "./types";
+import { ButtonProps } from "./props";
 
 import classnames from "classnames";
 import styles from "./Button.module.scss";

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { FormInputProps } from "./types";
+import { FormInputProps } from "./props";
 
 import styles from "./FormInput.module.scss";
 import useInput from "../../hooks/useInput";
