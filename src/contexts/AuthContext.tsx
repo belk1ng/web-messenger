@@ -38,8 +38,6 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
 
   const [isInit, setInit] = useState(false);
 
-  const _user = useMemo(() => user, [user]);
-
   const getUserInfo = useCallback(async () => {
     const response = await AuthAPI.getUser();
 
@@ -63,7 +61,7 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
       isInit,
       isAuth,
       setAuth,
-      user: _user,
+      user,
       setUser,
       getUserInfo,
     }),
