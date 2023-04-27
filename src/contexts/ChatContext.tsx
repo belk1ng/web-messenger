@@ -165,6 +165,11 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
       socket.on("close", _handleSocketClose as EventListener);
       socket.on("error", _handleSocketError);
     }
+
+    return () => {
+      handleChatDisconnect();
+      _clearPreviousChatConnection();
+    };
   }, [socket]);
 
   const value = useMemo(
