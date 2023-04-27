@@ -20,6 +20,7 @@ const Chat: FC<ChatProps> = ({ chat }) => {
     messages,
     chat: activeChat,
     handleLoadOldMessages,
+    messagesStopLoading,
     handleChatDisconnect,
     socket,
   } = useContext(ChatContext);
@@ -35,32 +36,31 @@ const Chat: FC<ChatProps> = ({ chat }) => {
       const isScrollAtBottom =
         _scrollTop + _clientHeight + DELTA > _scrollHeight;
 
-      // Scroll down when opening a chat
+      // Scroll down when opening a chat or when new message received
       if (isScrollAtBottom || !chatInitialized.current) {
         scrollbarRef.current.scrollToBottom();
       }
 
       // Scroll down to prevent scrollbar being at top
-      if (_scrollTop <= 250) {
+      if (_scrollTop <= 250 && chatInitialized.current) {
         scrollbarRef.current.scrollTop(_clientHeight);
       }
     }
 
     if (activeChat && messages.length > 0) {
       chatInitialized.current = true;
+      isLoading.current = false;
     } else {
       chatInitialized.current = false;
     }
-
-    isLoading.current = false;
   }, [messages, activeChat]);
 
   useEffect(() => {
-    function _handlePressEscape(event: KeyboardEvent) {
+    const _handlePressEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         handleChatDisconnect();
       }
-    }
+    };
 
     document.addEventListener("keydown", _handlePressEscape);
 
@@ -73,18 +73,14 @@ const Chat: FC<ChatProps> = ({ chat }) => {
     const _target = event.target as Element;
 
     if (
-      _target &&
       _target.scrollTop <= 250 &&
       !isLoading.current &&
-      socket?.socket?.readyState
+      socket?.socket?.readyState &&
+      !messagesStopLoading
     ) {
-      _handleLoadPrevMessages();
+      isLoading.current = true;
+      handleLoadOldMessages();
     }
-  };
-
-  const _handleLoadPrevMessages = () => {
-    isLoading.current = true;
-    handleLoadOldMessages();
   };
 
   return (

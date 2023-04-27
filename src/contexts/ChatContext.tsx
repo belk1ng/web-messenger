@@ -30,6 +30,8 @@ interface ChatContextValues {
   handleSendMessage: ChatSendMessageCallback;
   handleLoadOldMessages: ChatLoadMessagesCallback;
   handleChatDisconnect: ChatDisconnectCallback;
+
+  messagesStopLoading: boolean;
 }
 
 export type ChatConnectCallback = (chat: ActiveChat, url: string) => void;
@@ -61,6 +63,8 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
 
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
+  const [messagesStopLoading, setMessagesStopLoading] = useState(false);
+
   const chat = useMemo(() => activeChat, [activeChat]);
 
   const socket = useMemo(() => chatSocket, [chatSocket]);
@@ -70,8 +74,6 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
   const messages = useMemo(() => chatMessages, [chatMessages]);
 
   const messagesOffset = useRef(0);
-
-  const messagesStopLoading = useRef(false);
 
   // Ws manage callbacks
 
@@ -83,7 +85,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
   );
 
   const handleLoadOldMessages = useCallback(() => {
-    if (!messagesStopLoading.current) {
+    if (!messagesStopLoading) {
       chatSocket?.send("get old", String(messagesOffset.current));
     }
 
@@ -102,9 +104,8 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     setChatMessages([]);
     setChatMembers([]);
 
-    if (chatSocket) {
-      handleChatDisconnect();
-    }
+    setMessagesStopLoading(false);
+    messagesOffset.current = 0;
   }, [chatSocket, handleChatDisconnect]);
 
   const handleChatConnect = useCallback(
@@ -113,6 +114,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
         return;
       }
 
+      handleChatDisconnect();
       _clearPreviousChatConnection();
 
       setActiveChat(chat);
@@ -149,7 +151,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     if (valuesIsArray && values.length > 0) {
       setChatMessages((prev) => [...prev, ...values]);
     } else if (valuesIsArray) {
-      messagesStopLoading.current = true;
+      setMessagesStopLoading(true);
     }
 
     if (values.type === "message") {
@@ -169,10 +171,6 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
       chatSocket.on("message", _handleSocketMessage as EventListener);
       chatSocket.on("close", _handleSocketClose as EventListener);
       chatSocket.on("error", _handleSocketError);
-
-      // Reset socket based variables
-      messagesStopLoading.current = false;
-      messagesOffset.current = 0;
     }
   }, [chatSocket]);
 
@@ -189,6 +187,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
       handleChatDisconnect,
 
       setActiveChat,
+      messagesStopLoading,
     }),
     [chat, socket, members, messages]
   );
