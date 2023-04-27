@@ -35,8 +35,14 @@ const Chat: FC<ChatProps> = ({ chat }) => {
       const isScrollAtBottom =
         _scrollTop + _clientHeight + DELTA > _scrollHeight;
 
+      // Scroll down when opening a chat
       if (isScrollAtBottom || !chatInitialized.current) {
         scrollbarRef.current.scrollToBottom();
+      }
+
+      // Scrolling to bottom to prevent scrollbar being at top
+      if (_scrollTop <= 250) {
+        scrollbarRef.current.scrollTop(_clientHeight);
       }
     }
 
