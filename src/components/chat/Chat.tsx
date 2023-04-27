@@ -40,7 +40,7 @@ const Chat: FC<ChatProps> = ({ chat }) => {
         scrollbarRef.current.scrollToBottom();
       }
 
-      // Scrolling to bottom to prevent scrollbar being at top
+      // Scroll down to prevent scrollbar being at top
       if (_scrollTop <= 250) {
         scrollbarRef.current.scrollTop(_clientHeight);
       }
