@@ -56,11 +56,11 @@ export const ChatContext = createContext<ChatContextValues>(
 const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
   const [chat, setChat] = useState<ActiveChat>(null);
 
-  const [socket, setChatSocket] = useState<ChatSocket>(null);
+  const [socket, setSocket] = useState<ChatSocket>(null);
 
-  const [members, setChatMembers] = useState<ChatMember[]>([]);
+  const [members, setMembers] = useState<ChatMember[]>([]);
 
-  const [messages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const [messagesStopLoading, setMessagesStopLoading] = useState(false);
 
@@ -87,13 +87,13 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     if (socket) {
       socket.disconnect();
       setChat(null);
-      setChatSocket(null);
+      setSocket(null);
     }
   }, [socket]);
 
   const _clearPreviousChatConnection = useCallback(() => {
-    setChatMessages([]);
-    setChatMembers([]);
+    setMessages([]);
+    setMembers([]);
 
     setMessagesStopLoading(false);
     messagesOffset.current = 0;
@@ -105,15 +105,16 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
         return;
       }
 
-      if (chat || socket) {
+      if (socket) {
         handleChatDisconnect();
-        _clearPreviousChatConnection();
       }
+
+      _clearPreviousChatConnection();
 
       setChat(requestChat);
 
       const ws = new WebSocketClient().connect(url);
-      setChatSocket(ws);
+      setSocket(ws);
     },
     [socket, chat, handleChatDisconnect, _clearPreviousChatConnection]
   );
@@ -142,13 +143,13 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     const valuesIsArray = Array.isArray(values);
 
     if (valuesIsArray && values.length > 0) {
-      setChatMessages((prev) => [...prev, ...values]);
+      setMessages((prev) => [...prev, ...values]);
     } else if (valuesIsArray) {
       setMessagesStopLoading(true);
     }
 
     if (values.type === "message") {
-      setChatMessages((prev) => [values, ...prev]);
+      setMessages((prev) => [values, ...prev]);
     }
   };
 
@@ -167,7 +168,10 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     }
 
     return () => {
-      handleChatDisconnect();
+      if (socket?.socket?.OPEN) {
+        handleChatDisconnect();
+      }
+
       _clearPreviousChatConnection();
     };
   }, [socket]);
