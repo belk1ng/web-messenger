@@ -24,10 +24,6 @@ describe("sentAt unit", () => {
       expect(sentAt("something wrong")).toBe("Invalid date format");
     });
 
-    test("something wrong => Invalid date format", () => {
-      expect(sentAt("something wrong")).toBe("Invalid date format");
-    });
-
     test("2014-25-23 => Invalid date format", () => {
       expect(sentAt("2014-25-23")).toBe("Invalid date format");
     });
