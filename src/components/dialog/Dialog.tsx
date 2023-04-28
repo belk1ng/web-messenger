@@ -4,7 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import styles from "./Dialog.module.scss";
 import classnames from "classnames";
 import { DialogProps } from "./props";
-import timeAgo from "../../utils/timeAgo";
+import timeAgo from "../../utils/timeAgo/timeAgo";
 import ChatsAPI from "../../api/chats";
 
 const Dialog: FC<DialogProps> = ({ dialog }) => {
