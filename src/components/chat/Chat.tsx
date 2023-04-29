@@ -1,4 +1,11 @@
-import React, { FC, MouseEvent, useRef, useContext, useEffect } from "react";
+import React, {
+  FC,
+  MouseEvent,
+  useRef,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 import { ChatContext } from "../../contexts/ChatContext";
 import Dropdown from "../dropdown";
 import DropdownItem from "../dropdown-item";
@@ -25,7 +32,7 @@ const Chat: FC<ChatProps> = ({ chat }) => {
     socket,
   } = useContext(ChatContext);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (scrollbarRef.current) {
       const _scrollTop = scrollbarRef.current.getScrollTop();
       const _clientHeight = scrollbarRef.current.getClientHeight();
