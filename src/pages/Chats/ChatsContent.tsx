@@ -17,7 +17,7 @@ const ChatsPage = () => {
 
       <section className={styles.chats__chat}>
         {chat ? (
-          <Chat chat={chat} />
+          <Chat />
         ) : (
           <h5 className={styles.chats__trigger}>
             Select a chat to start messaging
