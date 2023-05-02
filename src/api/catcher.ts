@@ -16,7 +16,7 @@ function catcher(_: object, __: string, descriptor: PropertyDescriptor) {
           status: error?.response?.status as number,
         };
       } else {
-        console.log("Unexpecred error: ", error);
+        console.log("Unexpected error: ", error);
       }
     }
   };

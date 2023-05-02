@@ -5,4 +5,4 @@ npm start
 
 Build
 npm install
-npm buid
+npm build

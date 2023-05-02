@@ -19,8 +19,6 @@
   left: 0;
   z-index: 1000;
 
-  background-color: rgba(0, 0, 0, 0.55);
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,8 +35,8 @@
       height: 64px;
       margin: 8px;
       border-radius: 50%;
-      border: 6px solid $white;
-      border-color: $white transparent $white transparent;
+      border: 6px solid;
+      border-color: $blue transparent $blue transparent;
       animation: dual-ring 1s ease-in-out infinite;
     }
   }

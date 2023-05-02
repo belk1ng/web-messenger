@@ -1,5 +1,5 @@
 class WebSocketClient {
-  public socket: WebSocket | null = null;
+  public socket: Nullable<WebSocket> = null;
   private _interval: null | ReturnType<typeof setInterval> = null;
   private static readonly PING_INTERVAL = 5000;
 

@@ -171,7 +171,7 @@ const ProfileEditPage = () => {
             styles["profile__actions--form"]
           )}
         >
-          <Button variant="button" text="Save" modificator="primary" />
+          <Button variant="button" text="Save" modifier="primary" />
         </section>
       </form>
     </ProfileLayout>

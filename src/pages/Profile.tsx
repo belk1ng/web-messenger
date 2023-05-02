@@ -89,7 +89,7 @@ const ProfilePage = () => {
         <Button
           text="Sign out"
           variant="link"
-          modificator="error"
+          modifier="error"
           onClick={logout}
           href={APP_ROUTES.LOGIN}
         />

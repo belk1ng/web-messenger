@@ -128,7 +128,7 @@ const ProfileChangePasswordPage = () => {
             styles["profile__actions--form"]
           )}
         >
-          <Button text="Save" variant="button" modificator="primary" />
+          <Button text="Save" variant="button" modifier="primary" />
         </section>
       </form>
     </ProfileLayout>

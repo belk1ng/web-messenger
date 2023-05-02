@@ -3,6 +3,6 @@ export interface ButtonProps {
   text: string;
 
   href?: string;
-  modificator?: "primary" | "error";
+  modifier?: "primary" | "error";
   onClick?: VoidFunction;
 }

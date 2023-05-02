@@ -5,5 +5,5 @@ export type DialogProps = {
 };
 
 export type DialogListProps = {
-  list: Chat[];
+  list: Nullable<Chat>[];
 };

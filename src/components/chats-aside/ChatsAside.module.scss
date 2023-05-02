@@ -40,12 +40,13 @@
     align-items: center;
     gap: 8px;
 
+    transition: transform 0.25s ease;
+    transform: scale(0.9);
+
     margin-bottom: 15px;
 
-    transition: gap 0.25s ease;
-
     &:hover {
-      gap: 4px;
+      transform: scale(1.01);
     }
   }
 }

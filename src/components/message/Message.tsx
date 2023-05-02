@@ -3,7 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import { MessageProps } from "./props";
 import styles from "./Message.module.scss";
 import classnames from "classnames";
-import sentAt from "../../utils/sentAt";
+import sentAt from "../../utils/sentAt/sentAt";
 
 const Message: FC<MessageProps> = ({ message }) => {
   const { user } = useAuth();

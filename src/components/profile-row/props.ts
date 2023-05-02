@@ -1,3 +1,3 @@
-import { FormInputProps } from "../form-input/types";
+import { FormInputProps } from "../form-input/props";
 
 export type ProfileRowProps = FormInputProps & { readonly: boolean };

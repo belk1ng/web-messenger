@@ -10,7 +10,7 @@ import { ChatsAsideProps } from "./props";
 import { Chat } from "../../@types/chats";
 
 const ChatsAside: FC<ChatsAsideProps> = () => {
-  const [chats, setChats] = useState<Chat[]>([]);
+  const [chats, setChats] = useState<Chat[]>(Array(15).fill(null));
 
   const handleLoadChats = async () => {
     const response = await ChatsAPI.getChats();
@@ -45,6 +45,7 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
         <Link to={APP_ROUTES.PROFILE} className={styles.aside__link}>
           Profile
           <svg
+            className={styles.aside__vector}
             width="6"
             height="10"
             viewBox="0 0 6 10"

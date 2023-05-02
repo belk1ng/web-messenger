@@ -1,5 +1,7 @@
 import React, {
   FC,
+  Dispatch,
+  SetStateAction,
   createContext,
   useState,
   useEffect,
@@ -17,10 +19,10 @@ interface AuthContextValues {
   isInit: boolean;
 
   user: null | AuthUser;
-  setUser: (user: AuthContextUser) => void;
+  setUser: Dispatch<SetStateAction<AuthContextUser>>;
 
   isAuth: boolean;
-  setAuth: (value: boolean) => void;
+  setAuth: Dispatch<SetStateAction<boolean>>;
 
   getUserInfo: () => Promise<void>;
 }
@@ -35,8 +37,6 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
   const [user, setUser] = useState<AuthContextUser>(null);
 
   const [isInit, setInit] = useState(false);
-
-  const _user = useMemo(() => user, [user]);
 
   const getUserInfo = useCallback(async () => {
     const response = await AuthAPI.getUser();
@@ -61,7 +61,7 @@ const AuthContextProvider: FC<AuthContextProps> = ({ children }) => {
       isInit,
       isAuth,
       setAuth,
-      user: _user,
+      user,
       setUser,
       getUserInfo,
     }),

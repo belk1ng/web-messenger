@@ -1,0 +1,89 @@
+@import "/src/assets/styles/variables.scss";
+@import "/src/assets/styles/mixins.scss";
+
+@keyframes show {
+  0% {
+    top: 0;
+    right: 0;
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  100% {
+    top: 50px;
+    right: 0;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hide {
+  0% {
+    top: 50px;
+    right: 0;
+    opacity: 1;
+    transform: scale(1);
+    display: block;
+  }
+
+  99% {
+    display: block;
+  }
+
+  100% {
+    top: 0;
+    right: 0;
+    opacity: 0;
+    transform: scale(0.7);
+    display: none;
+  }
+}
+
+.dropdown {
+  position: relative;
+
+  &__area {
+    max-width: 25px;
+    max-height: 25px;
+    min-width: 25px;
+    min-height: 25px;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: $dropdown-hover;
+    }
+
+    @include flex-center;
+  }
+
+  &__actions {
+    &--active {
+      display: flex;
+      animation: show 0.25s ease;
+    }
+
+    position: absolute;
+    top: 50px;
+    right: 0;
+    z-index: 1000;
+
+    min-width: 210px;
+    border-radius: 12px;
+    box-shadow: $shadow;
+    background-color: $white;
+
+    padding: 15px;
+
+    flex-direction: column;
+    gap: 16px;
+
+    &--hidden {
+      display: none;
+    }
+  }
+}

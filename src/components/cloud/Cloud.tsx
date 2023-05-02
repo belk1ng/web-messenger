@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { CloudProps } from "./types";
+import { CloudProps } from "./props";
 import styles from "./Cloud.module.scss";
 
 const Cloud: FC<CloudProps> = ({ children }) => {

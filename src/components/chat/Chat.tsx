@@ -1,28 +1,35 @@
-import React, { FC, MouseEvent, useRef, useContext, useEffect } from "react";
+import React, {
+  MouseEvent,
+  useRef,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 import { ChatContext } from "../../contexts/ChatContext";
+import useMessages from "../../hooks/useMessages";
 import Scrollbar from "../scrollbar/Scrollbar";
 import Scrollbars from "react-custom-scrollbars-2";
 import Messages from "./messages/Messages";
 import MessageForm from "./message-form/MessageForm";
-import { ChatProps } from "./props";
 import styles from "./Chat.module.scss";
+import ChatHeader from "./header/ChatHeader";
 
-const Chat: FC<ChatProps> = ({ chat }) => {
+const Chat = () => {
   const scrollbarRef = useRef<Scrollbars>(null);
 
   const chatInitialized = useRef(false);
 
   const isLoading = useRef(false);
 
+  const { messages, handleLoadOldMessages, stopLoading } = useMessages();
+
   const {
-    messages,
     chat: activeChat,
-    handleLoadOldMessages,
     handleChatDisconnect,
     socket,
   } = useContext(ChatContext);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (scrollbarRef.current) {
       const _scrollTop = scrollbarRef.current.getScrollTop();
       const _clientHeight = scrollbarRef.current.getClientHeight();
@@ -33,24 +40,28 @@ const Chat: FC<ChatProps> = ({ chat }) => {
       const isScrollAtBottom =
         _scrollTop + _clientHeight + DELTA > _scrollHeight;
 
+      // Scroll down when opening a chat or when new message received
       if (isScrollAtBottom || !chatInitialized.current) {
         scrollbarRef.current.scrollToBottom();
+      }
+
+      // Scroll down to prevent scrollbar being at top
+      if (_scrollTop <= 250 && chatInitialized.current) {
+        scrollbarRef.current.scrollTop(_clientHeight);
       }
     }
 
     if (activeChat && messages.length > 0) {
       chatInitialized.current = true;
+      isLoading.current = false;
     } else {
       chatInitialized.current = false;
     }
-
-    isLoading.current = false;
   }, [messages, activeChat]);
 
   useEffect(() => {
-    const _handlePressEscape = function (event: KeyboardEvent) {
+    const _handlePressEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        console.log("Press esc");
         handleChatDisconnect();
       }
     };
@@ -60,42 +71,28 @@ const Chat: FC<ChatProps> = ({ chat }) => {
     return () => {
       document.removeEventListener("keydown", _handlePressEscape);
     };
-  }, []);
+  }, [handleChatDisconnect]);
 
   const handleScroll = (event: MouseEvent<HTMLDivElement>) => {
     const _target = event.target as Element;
 
     if (
-      _target &&
       _target.scrollTop <= 250 &&
       !isLoading.current &&
-      socket?.socket?.readyState
+      socket?.socket?.readyState &&
+      !stopLoading
     ) {
-      _handleLoadPrevMessages();
+      isLoading.current = true;
+      handleLoadOldMessages();
     }
-  };
-
-  const _handleLoadPrevMessages = () => {
-    isLoading.current = true;
-    handleLoadOldMessages();
   };
 
   return (
     <section className={styles.chat}>
-      <div className={styles.chat__header}>
-        <div className={styles.chat__info}>
-          <img
-            className={styles.chat__avatar}
-            alt="Chat avatar"
-            src="https://images.unsplash.com/photo-1681846291878-1103198eb2d0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60"
-          />
-          <h3 className={styles.chat__title}>{chat.title}</h3>
-        </div>
-        <div className={styles.chat__actions}></div>
-      </div>
+      <ChatHeader />
       <div className={styles.chat__content}>
         <Scrollbar ref={scrollbarRef} onScroll={handleScroll}>
-          <Messages />
+          <Messages messages={messages} />
         </Scrollbar>
       </div>
       <div className={styles.chat__footer}>
