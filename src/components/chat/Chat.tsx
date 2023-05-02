@@ -7,6 +7,7 @@ import React, {
   useLayoutEffect,
 } from "react";
 import { ChatContext } from "../../contexts/ChatContext";
+import useMessages from "../../hooks/useMessages";
 import Dropdown from "../dropdown";
 import DropdownItem from "../dropdown-item";
 import Scrollbar from "../scrollbar/Scrollbar";
@@ -23,11 +24,10 @@ const Chat: FC<ChatProps> = ({ chat }) => {
 
   const isLoading = useRef(false);
 
+  const { messages, handleLoadOldMessages, stopLoading } = useMessages();
+
   const {
-    messages,
     chat: activeChat,
-    handleLoadOldMessages,
-    messagesStopLoading,
     handleChatDisconnect,
     socket,
   } = useContext(ChatContext);
@@ -83,7 +83,7 @@ const Chat: FC<ChatProps> = ({ chat }) => {
       _target.scrollTop <= 250 &&
       !isLoading.current &&
       socket?.socket?.readyState &&
-      !messagesStopLoading
+      !stopLoading
     ) {
       isLoading.current = true;
       handleLoadOldMessages();
@@ -117,7 +117,7 @@ const Chat: FC<ChatProps> = ({ chat }) => {
       </div>
       <div className={styles.chat__content}>
         <Scrollbar ref={scrollbarRef} onScroll={handleScroll}>
-          <Messages />
+          <Messages messages={messages} />
         </Scrollbar>
       </div>
       <div className={styles.chat__footer}>

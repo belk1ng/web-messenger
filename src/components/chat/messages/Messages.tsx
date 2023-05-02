@@ -1,12 +1,13 @@
-import React, { ReactNode, useContext, useMemo } from "react";
-import { ChatContext } from "../../../contexts/ChatContext";
+import React, { FC, ReactNode, useMemo } from "react";
 import Message from "../../message";
 import styles from "./Messages.module.scss";
 import { ChatMessage } from "../../../@types/chats";
 
-const Messages = () => {
-  const { messages } = useContext(ChatContext);
+interface Props {
+  messages: ChatMessage[];
+}
 
+const Messages: FC<Props> = ({ messages }) => {
   const content = useMemo(() => {
     const _messages: ReactNode[] = [];
 

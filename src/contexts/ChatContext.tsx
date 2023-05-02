@@ -2,14 +2,14 @@ import React, {
   FC,
   createContext,
   useState,
-  useRef,
   useEffect,
   useMemo,
   useCallback,
 } from "react";
-import { Chat, ChatMessage } from "../@types/chats";
-import { AuthUser } from "../@types/auth";
+import { Chat } from "../@types/chats";
+import { ChatMessagesBusEvents } from "../hooks/useMessages";
 
+import EventBus from "../utils/eventBus";
 import WebSocketClient from "../utils/websocket";
 
 interface ChatContextProps {
@@ -20,17 +20,14 @@ interface ChatContextValues {
   // Resources
   chat: ActiveChat;
   socket: ChatSocket;
-  members: ChatMember[];
-  messages: ChatMessage[];
 
   // Chat managing callbacks
   handleChatConnect: ChatConnectCallback;
   handleSendMessage: ChatSendMessageCallback;
-  handleLoadOldMessages: ChatLoadMessagesCallback;
   handleChatDisconnect: ChatDisconnectCallback;
 
-  // Flags
-  messagesStopLoading: boolean;
+  // Bus
+  eventBus: EventBus | null;
 }
 
 export type ChatConnectCallback = (chat: ActiveChat, url: string) => void;
@@ -45,10 +42,6 @@ export type ActiveChat = Nullable<Chat>;
 
 export type ChatSocket = Nullable<WebSocketClient>;
 
-export type ChatMember = AuthUser & {
-  role: "admin" | "regular";
-};
-
 export const ChatContext = createContext<ChatContextValues>(
   {} as ChatContextValues
 );
@@ -58,13 +51,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
 
   const [socket, setSocket] = useState<ChatSocket>(null);
 
-  const [members, setMembers] = useState<ChatMember[]>([]);
-
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-
-  const [messagesStopLoading, setMessagesStopLoading] = useState(false);
-
-  const messagesOffset = useRef(0);
+  const eventBus = useMemo(() => (socket ? new EventBus() : null), [socket]);
 
   // Ws manage callbacks
 
@@ -75,29 +62,15 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     [socket]
   );
 
-  const handleLoadOldMessages = useCallback(() => {
-    if (!messagesStopLoading) {
-      socket?.send("get old", String(messagesOffset.current));
-    }
-
-    messagesOffset.current += 20;
-  }, [socket]);
-
   const handleChatDisconnect = useCallback(() => {
     if (socket) {
+      eventBus?.emit(ChatMessagesBusEvents.RESET);
+
       socket.disconnect();
       setChat(null);
       setSocket(null);
     }
   }, [socket]);
-
-  const _clearPreviousChatConnection = useCallback(() => {
-    setMessages([]);
-    setMembers([]);
-
-    setMessagesStopLoading(false);
-    messagesOffset.current = 0;
-  }, [socket, handleChatDisconnect]);
 
   const handleChatConnect = useCallback(
     (requestChat: ActiveChat, url: string) => {
@@ -109,14 +82,12 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
         handleChatDisconnect();
       }
 
-      _clearPreviousChatConnection();
-
       setChat(requestChat);
 
       const ws = new WebSocketClient().connect(url);
       setSocket(ws);
     },
-    [socket, chat, handleChatDisconnect, _clearPreviousChatConnection]
+    [socket, chat, handleChatDisconnect]
   );
 
   // Ws event listeners' callbacks
@@ -124,7 +95,7 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
   const _handleSocketOpen = () => {
     console.log("Ws connection established");
 
-    handleLoadOldMessages();
+    eventBus?.emit(ChatMessagesBusEvents.AUTO_LOAD);
   };
 
   const _handleSocketClose = (event: CloseEvent) => {
@@ -143,13 +114,13 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     const valuesIsArray = Array.isArray(values);
 
     if (valuesIsArray && values.length > 0) {
-      setMessages((prev) => [...prev, ...values]);
+      eventBus?.emit(ChatMessagesBusEvents.MESSAGES, values);
     } else if (valuesIsArray) {
-      setMessagesStopLoading(true);
+      eventBus?.emit(ChatMessagesBusEvents.NO_MORE_MESSAGES);
     }
 
     if (values.type === "message") {
-      setMessages((prev) => [values, ...prev]);
+      eventBus?.emit(ChatMessagesBusEvents.MESSAGE, values);
     }
   };
 
@@ -171,8 +142,6 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
       if (socket?.socket?.OPEN) {
         handleChatDisconnect();
       }
-
-      _clearPreviousChatConnection();
     };
   }, [socket]);
 
@@ -180,17 +149,14 @@ const ChatContextProvider: FC<ChatContextProps> = ({ children }) => {
     () => ({
       chat,
       socket,
-      members,
-      messages,
 
       handleChatConnect,
       handleSendMessage,
-      handleLoadOldMessages,
       handleChatDisconnect,
 
-      messagesStopLoading,
+      eventBus,
     }),
-    [chat, socket, members, messages]
+    [chat, socket]
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
