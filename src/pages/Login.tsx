@@ -10,7 +10,7 @@ import {
   loginRegExp,
   passwordMessage,
   passwordRegExp,
-} from "../utils/validate";
+} from "../utils/validate/validate";
 import { APP_ROUTES } from "../routes/routes";
 import useTitle, { APP_TITLE } from "../hooks/useTitle";
 import useForm from "../hooks/useForm";

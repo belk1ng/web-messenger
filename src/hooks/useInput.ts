@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
-import { validate } from "../utils/validate";
+import { validate } from "../utils/validate/validate";
 import { FormInputProps } from "../components/form-input/props";
 
 type Props = Pick<

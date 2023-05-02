@@ -9,17 +9,13 @@ export enum VALIDATION_FIELD {
   "LOGIN" = "login",
   "PASSWORD" = "password",
   "PHONE" = "phone",
-  "MESSAGE" = "message",
 }
 
-export const nameRegExp = /^[А-ЯA-Z][-А-ЯA-Zа-яa-z]+/;
-export const loginRegExp = /^[a-zA-Z][a-zA-Z0-9_-]{3,20}$/;
-export const emailRegExp =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-export const passwordRegExp =
-  /^(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
-export const phoneRegExp = /\+?[0-9]{10,15}/;
-export const messageRegExp = /^[\s\S]/;
+export const nameRegExp = /^(?:[A-ZА-Я][a-zа-я]*)(?:-[A-ZА-Я][a-zа-я]*)*$/;
+export const loginRegExp = /^[A-Za-z][A-Za-z0-9_-]{2,19}$/;
+export const emailRegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+export const passwordRegExp = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,40}$/;
+export const phoneRegExp = /^\+?\d{9,14}$/;
 
 export const nameMessage =
   "Latin or Cyrillic, the first letter must be capital, no spaces and no numbers, no special characters (only a hyphen is allowed).";
@@ -58,10 +54,6 @@ export const validationRules: Record<VALIDATION_FIELD, ValidationField> = {
   [VALIDATION_FIELD.PHONE]: {
     regex: phoneRegExp,
     message: phoneMessage,
-  },
-  [VALIDATION_FIELD.MESSAGE]: {
-    regex: messageRegExp,
-    message: messageValidationError,
   },
 };
 

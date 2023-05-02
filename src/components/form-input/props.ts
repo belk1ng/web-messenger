@@ -1,4 +1,4 @@
-import { VALIDATION_FIELD } from "../../utils/validate";
+import { VALIDATION_FIELD } from "../../utils/validate/validate";
 
 export interface FormInputProps {
   type: "text" | "password" | "email" | "phone";

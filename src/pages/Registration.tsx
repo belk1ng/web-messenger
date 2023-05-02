@@ -16,7 +16,7 @@ import {
   passwordRegExp,
   phoneMessage,
   phoneRegExp,
-} from "../utils/validate";
+} from "../utils/validate/validate";
 import { APP_ROUTES } from "../routes/routes";
 import useTitle from "../hooks/useTitle";
 import useForm from "../hooks/useForm";
