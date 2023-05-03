@@ -6,7 +6,7 @@ import DialogSkeleton from "./DialogSkeleton";
 const DialogList: FC<DialogListProps> = ({ list }) => {
   return (
     <ul>
-      {list.map((dialog, index) => {
+      {list?.map((dialog, index) => {
         return dialog ? (
           <li key={dialog.id}>
             <Dialog dialog={dialog} />
