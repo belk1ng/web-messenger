@@ -3,6 +3,7 @@ import React, {
   SyntheticEvent,
   useState,
   useContext,
+  memo,
 } from "react";
 import { ChatContext } from "../../../contexts/ChatContext";
 import styles from "./MessageForm.module.scss";
@@ -68,4 +69,4 @@ const MessageForm = () => {
   );
 };
 
-export default MessageForm;
+export default memo(MessageForm);
