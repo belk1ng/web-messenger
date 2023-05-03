@@ -24,7 +24,9 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
     if (chatSearchQuery.length) {
       setChats(
         allChats.current.filter((chat) =>
-          chat.title.toLowerCase().includes(chatSearchQuery.toLowerCase())
+          chat.title
+            .toLowerCase()
+            .includes(chatSearchQuery.trim().toLowerCase())
         )
       );
     } else if (chats.length > 0 && chats[0] !== null) {
@@ -68,11 +70,12 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
         {chatSearchQuery.length > 0 &&
           (chats.length ? (
             <p className={styles.aside__results}>
-              Результаты по запросу <b>&#34;{chatSearchQuery}&#34;</b>:
+              Результаты по запросу <b>&#34;{chatSearchQuery.trim()}&#34;</b>:
             </p>
           ) : (
             <p className={styles.aside__results}>
-              По запросу <b>&#34;{chatSearchQuery}&#34;</b> ничего не найдено.
+              По запросу <b>&#34;{chatSearchQuery.trim()}&#34;</b> ничего не
+              найдено.
             </p>
           ))}
       </section>
