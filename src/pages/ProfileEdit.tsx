@@ -14,7 +14,7 @@ import {
   nameMessage,
   phoneRegExp,
   phoneMessage,
-} from "../utils/validate";
+} from "../utils/validate/validate";
 import useAuth from "../hooks/useAuth";
 import useForm from "../hooks/useForm";
 import { useNavigate } from "react-router-dom";

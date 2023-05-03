@@ -26,6 +26,15 @@
     border-bottom: 1px solid $separator-color;
   }
 
+  &__results {
+    max-width: 100%;
+
+    align-self: flex-start;
+    font-size: 12px;
+
+    margin-bottom: 8px;
+  }
+
   &__list {
     flex: 1;
     margin-top: -1px;

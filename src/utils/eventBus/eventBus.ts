@@ -24,6 +24,10 @@ class EventBus {
     this.listeners[event] = this.listeners[event].filter(
       (listener) => listener !== callback
     );
+
+    if (this.listeners[event].length === 0) {
+      delete this.listeners[event];
+    }
   }
 
   public emit(event: EventName, ...args: unknown[]) {

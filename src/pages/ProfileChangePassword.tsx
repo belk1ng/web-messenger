@@ -15,7 +15,7 @@ import {
   passwordRegExp,
   passwordMessage,
   VALIDATION_FIELD,
-} from "../utils/validate";
+} from "../utils/validate/validate";
 
 const ProfileChangePasswordPage = () => {
   const { user } = useAuth();

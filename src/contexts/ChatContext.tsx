@@ -9,7 +9,7 @@ import React, {
 import { Chat } from "../@types/chats";
 import { ChatMessagesBusEvents } from "../hooks/useMessages";
 
-import EventBus from "../utils/eventBus";
+import EventBus from "../utils/eventBus/eventBus";
 import WebSocketClient from "../utils/websocket";
 
 interface ChatContextProps {

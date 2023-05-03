@@ -1,6 +1,6 @@
-import React, { FC, useState, useEffect, memo } from "react";
+import React, { FC, useState, useEffect, useRef, memo } from "react";
 import { Link } from "react-router-dom";
-import UserSearch from "../user-search";
+import ChatSearch from "../chat-search";
 import styles from "./ChatsAside.module.scss";
 import { APP_ROUTES } from "../../routes/routes";
 import { DialogList } from "../dialog";
@@ -12,6 +12,26 @@ import { Chat } from "../../@types/chats";
 const ChatsAside: FC<ChatsAsideProps> = () => {
   const [chats, setChats] = useState<Chat[]>(Array(15).fill(null));
 
+  const [chatSearchQuery, setChatSearchQuery] = useState("");
+
+  const allChats = useRef<Chat[]>([]);
+
+  useEffect(() => {
+    handleLoadChats();
+  }, []);
+
+  useEffect(() => {
+    if (chatSearchQuery.length) {
+      setChats(
+        allChats.current.filter((chat) =>
+          chat.title.toLowerCase().includes(chatSearchQuery.toLowerCase())
+        )
+      );
+    } else if (chats.length > 0 && chats[0] !== null) {
+      setChats(allChats.current);
+    }
+  }, [chatSearchQuery]);
+
   const handleLoadChats = async () => {
     const response = await ChatsAPI.getChats();
 
@@ -22,22 +42,11 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
       !("reason" in response.data)
     ) {
       setChats(response.data);
+      allChats.current = response.data;
     } else {
       console.log("Error: ", response?.data);
     }
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleLoadChats();
-    }, 10_000);
-
-    handleLoadChats();
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   return (
     <aside className={styles.aside}>
@@ -55,7 +64,17 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
             <path d="M1 9L5 5L1 1" stroke="#999999" />
           </svg>
         </Link>
-        <UserSearch />
+        <ChatSearch setSearchQuery={setChatSearchQuery} />
+        {chatSearchQuery.length > 0 &&
+          (chats.length ? (
+            <p className={styles.aside__results}>
+              Результаты по запросу <b>&#34;{chatSearchQuery}&#34;</b>:
+            </p>
+          ) : (
+            <p className={styles.aside__results}>
+              По запросу <b>&#34;{chatSearchQuery}&#34;</b> ничего не найдено.
+            </p>
+          ))}
       </section>
       <section className={styles.aside__list}>
         <Scrollbar>
