@@ -1,5 +1,6 @@
-import React, { FC, ReactNode, useMemo } from "react";
+import React, { FC, ReactNode, useMemo, useCallback } from "react";
 import Message from "../../message";
+import groupBy from "../../../utils/groupBy";
 import styles from "./Messages.module.scss";
 import { ChatMessage } from "../../../@types/chats";
 
@@ -8,44 +9,37 @@ interface Props {
 }
 
 const Messages: FC<Props> = ({ messages }) => {
+  const _messageGroupCriteria = useCallback((message: ChatMessage) => {
+    const date = new Date(message.time);
+
+    return `${date.getDate()} ${date.toLocaleDateString("en", {
+      month: "long",
+    })} ${date.getFullYear()}`;
+  }, []);
+
   const content = useMemo(() => {
-    const _messages: ReactNode[] = [];
+    const messagesGroup = groupBy(messages, _messageGroupCriteria);
 
-    let prevMessageDay = new Date(messages[0]?.time) ?? new Date();
+    const entries = Object.entries(messagesGroup);
 
-    const addDate = (date: Date, key: string) => {
-      _messages.unshift(
-        <p key={key} className={styles.messages__group}>
-          {date.getDate()} {date.toLocaleDateString("en", { month: "long" })}
+    const messagesAndDates: ReactNode[] = [];
+
+    entries?.forEach(([date, messages]) => {
+      messages.forEach((message) => {
+        messagesAndDates.unshift(
+          <Message message={message} key={message.id} />
+        );
+      });
+
+      messagesAndDates.unshift(
+        <p className={styles.messages__group} key={`date_${messages[0].id}`}>
+          {date}
         </p>
       );
-    };
-
-    const addMessage = (message: ChatMessage) => {
-      _messages.unshift(<Message key={message.id} message={message} />);
-    };
-
-    messages.forEach((message) => {
-      const messageTime = new Date(message.time);
-
-      const messageDay = messageTime.getDate();
-
-      if (prevMessageDay.getDate() === messageDay) {
-        addMessage(message);
-      } else {
-        addDate(prevMessageDay, `d_${message.id}`);
-        addMessage(message);
-
-        prevMessageDay = messageTime;
-      }
     });
 
-    if (messages.length > 0) {
-      addDate(prevMessageDay, `start_day`);
-    }
-
-    return _messages;
-  }, [messages]);
+    return messagesAndDates;
+  }, [messages, _messageGroupCriteria]);
 
   return <div className={styles.messages}>{content}</div>;
 };
