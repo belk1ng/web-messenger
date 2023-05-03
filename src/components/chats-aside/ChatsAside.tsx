@@ -29,7 +29,10 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
             .includes(chatSearchQuery.trim().toLowerCase())
         )
       );
-    } else if (chats.length > 0 && chats[0] !== null) {
+    } else if (
+      (chats.length > 0 && chats[0] !== null) ||
+      (allChats.current.length > 0 && chatSearchQuery.trim() === "")
+    ) {
       setChats(allChats.current);
     }
   }, [chatSearchQuery]);
@@ -67,15 +70,14 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
           </svg>
         </Link>
         <ChatSearch setSearchQuery={setChatSearchQuery} />
-        {chatSearchQuery.length > 0 &&
+        {chatSearchQuery.trim().length > 0 &&
           (chats.length ? (
             <p className={styles.aside__results}>
-              Результаты по запросу <b>&#34;{chatSearchQuery.trim()}&#34;</b>:
+              Found by request <b>&#34;{chatSearchQuery.trim()}&#34;</b>:
             </p>
           ) : (
             <p className={styles.aside__results}>
-              По запросу <b>&#34;{chatSearchQuery.trim()}&#34;</b> ничего не
-              найдено.
+              No results found for <b>&#34;{chatSearchQuery.trim()}&#34;</b>.
             </p>
           ))}
       </section>

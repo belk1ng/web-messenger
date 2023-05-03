@@ -1,8 +1,29 @@
 @import "/src/assets/styles/variables.scss";
 
 .input {
+  position: relative;
+
   width: 100%;
   margin-bottom: 14px;
+
+  &__reset {
+    width: 15px;
+    height: 15px;
+
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    cursor: pointer;
+
+    color: #1e1e1e75;
+    transition: color 0.25s ease;
+
+    &:hover {
+      color: $black;
+    }
+  }
 
   &__input {
     width: 100%;
