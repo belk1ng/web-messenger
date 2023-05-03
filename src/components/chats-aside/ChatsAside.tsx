@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef, memo } from "react";
+import React, { FC, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import ChatSearch from "../chat-search";
 import styles from "./ChatsAside.module.scss";
@@ -88,4 +88,4 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
   );
 };
 
-export default memo(ChatsAside);
+export default ChatsAside;
