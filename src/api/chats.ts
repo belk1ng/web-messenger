@@ -19,6 +19,14 @@ class ChatsAPI {
       `${ChatsAPI.CHATS_PREFIX}/token/${id}`
     );
   }
+
+  @catcher
+  static async createChat(title: string): MethodResponse<string> {
+    return axios.post<string>(
+      `${ChatsAPI.CHATS_PREFIX}${CHATS_ENDPOINTS.CHATS}`,
+      { title }
+    );
+  }
 }
 
 export default ChatsAPI;

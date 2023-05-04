@@ -9,6 +9,7 @@ export enum VALIDATION_FIELD {
   "LOGIN" = "login",
   "PASSWORD" = "password",
   "PHONE" = "phone",
+  "CHAT_TITLE" = "chat-title",
 }
 
 export const nameRegExp = /^(?:[A-ZА-Я][a-zа-я]*)(?:-[A-ZА-Я][a-zа-я]*)*$/;
@@ -16,6 +17,7 @@ export const loginRegExp = /^[A-Za-z][A-Za-z0-9_-]{2,19}$/;
 export const emailRegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 export const passwordRegExp = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,40}$/;
 export const phoneRegExp = /^\+?\d{9,14}$/;
+export const chatTitleRegExp = new RegExp(/^[\p{L}\s!@#$&()-`.+,]{5,25}$/, "u");
 
 export const nameMessage =
   "Latin or Cyrillic, the first letter must be capital, no spaces and no numbers, no special characters (only a hyphen is allowed).";
@@ -32,7 +34,7 @@ export const passwordMessage =
 export const phoneMessage =
   "From 10 to 15 characters, consists of numbers, may start with a plus sign.";
 
-export const messageValidationError = "";
+export const chatTitleMessage = "From 5 to 25 letters with spaces and hyphens.";
 
 export const validationRules: Record<VALIDATION_FIELD, ValidationField> = {
   [VALIDATION_FIELD.NAME]: {
@@ -54,6 +56,10 @@ export const validationRules: Record<VALIDATION_FIELD, ValidationField> = {
   [VALIDATION_FIELD.PHONE]: {
     regex: phoneRegExp,
     message: phoneMessage,
+  },
+  [VALIDATION_FIELD.CHAT_TITLE]: {
+    regex: chatTitleRegExp,
+    message: chatTitleMessage,
   },
 };
 
