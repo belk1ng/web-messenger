@@ -52,14 +52,16 @@ const Dialog: FC<DialogProps> = ({ dialog }) => {
           )}
         </div>
         <div className={styles.dialog__bottom}>
-          <p className={styles.dialog__message}>
-            <span className={styles.dialog__sender}>
-              {user?.login === last_message?.user?.login
-                ? "You: "
-                : `${last_message?.user?.first_name} ${last_message?.user?.second_name}: `}
-            </span>
-            {last_message?.content}
-          </p>
+          {last_message && (
+            <p className={styles.dialog__message}>
+              <span className={styles.dialog__sender}>
+                {user?.login === last_message?.user?.login
+                  ? "You: "
+                  : `${last_message?.user?.first_name} ${last_message?.user?.second_name}: `}
+              </span>
+              {last_message?.content}
+            </p>
+          )}
           {unread_count ? (
             <p className={styles.dialog__unread}>
               {unread_count <= 99 ? unread_count : "99+"}

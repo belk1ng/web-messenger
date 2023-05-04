@@ -35,7 +35,7 @@ const Chat = () => {
       const _clientHeight = scrollbarRef.current.getClientHeight();
       const _scrollHeight = scrollbarRef.current.getScrollHeight();
 
-      const DELTA = 120;
+      const DELTA = 200;
 
       const isScrollAtBottom =
         _scrollTop + _clientHeight + DELTA > _scrollHeight;

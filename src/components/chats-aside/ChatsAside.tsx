@@ -1,10 +1,12 @@
 import React, { FC, useState, useEffect, useRef, memo } from "react";
 import { Link } from "react-router-dom";
 import ChatSearch from "../chat-search";
-import styles from "./ChatsAside.module.scss";
-import { APP_ROUTES } from "../../routes/routes";
 import { DialogList } from "../dialog";
 import Scrollbar from "../scrollbar";
+import Modal from "../modal";
+import CreateChatModalContent from "./CreateChatModalContent";
+import styles from "./ChatsAside.module.scss";
+import { APP_ROUTES } from "../../routes/routes";
 import ChatsAPI from "../../api/chats";
 import { ChatsAsideProps } from "./props";
 import { Chat } from "../../@types/chats";
@@ -13,6 +15,16 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
   const [chats, setChats] = useState<Chat[]>(Array(15).fill(null));
 
   const [chatSearchQuery, setChatSearchQuery] = useState("");
+
+  const [modalActive, setModalActive] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalActive(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalActive(false);
+  };
 
   const allChats = useRef<Chat[]>([]);
 
@@ -69,7 +81,21 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
             <path d="M1 9L5 5L1 1" stroke="#999999" />
           </svg>
         </Link>
-        <ChatSearch setSearchQuery={setChatSearchQuery} />
+        <div className={styles.aside__actions}>
+          <ChatSearch setSearchQuery={setChatSearchQuery} />
+          <button className={styles.aside__create} onClick={handleOpenModal}>
+            +
+          </button>
+
+          <Modal active={modalActive} setActive={setModalActive}>
+            {modalActive && (
+              <CreateChatModalContent
+                reloadChats={handleLoadChats}
+                closeModal={handleCloseModal}
+              />
+            )}
+          </Modal>
+        </div>
         {chatSearchQuery.trim().length > 0 &&
           (chats.length ? (
             <p className={styles.aside__results}>

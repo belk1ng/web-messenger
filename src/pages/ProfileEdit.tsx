@@ -118,6 +118,7 @@ const ProfileEditPage = () => {
           onChange={handleChange}
           validationRule={VALIDATION_FIELD.EMAIL}
           readonly={false}
+          autofocus
         />
         <ProfileRow
           label="Login"

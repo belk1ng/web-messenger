@@ -16,39 +16,30 @@ class UserAPI {
   static async updateAvatar(
     values: ProfileAvatarValues
   ): MethodResponse<AuthContextUser> {
-    const response = await axios.put<AuthContextUser>(
+    return axios.put<AuthContextUser>(
       `${UserAPI.USER_PREFIX}${USER_ENDPOINTS.AVATAR}`,
       values
     );
-    const { data, status } = response;
-
-    return { data, status };
   }
 
   @catcher
   static async updateProfileData(
     values: ProfileDataValues
   ): MethodResponse<AuthContextUser> {
-    const response = await axios.put<AuthContextUser>(
+    return axios.put<AuthContextUser>(
       `${UserAPI.USER_PREFIX}${USER_ENDPOINTS.UPDATE_INFO}`,
       values
     );
-    const { data, status } = response;
-
-    return { data, status };
   }
 
   @catcher
   static async updateProfilePassword(
     values: ProfilePasswordsValues
   ): MethodResponse<string> {
-    const response = await axios.put<string>(
+    return axios.put<string>(
       `${UserAPI.USER_PREFIX}${USER_ENDPOINTS.UPDATE_PASSWORD}`,
       values
     );
-    const { data, status } = response;
-
-    return { data, status };
   }
 }
 

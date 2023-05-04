@@ -1,6 +1,6 @@
 import React, { FC, useState, ChangeEvent, useCallback } from "react";
 import CloseIcon from "../../assets/icons/Close";
-import debounce from "../../utils/debounce";
+import debounce from "../../utils/debounce/debounce";
 import { ChatSearchProps } from "./props";
 import styles from "./ChatSearch.module.scss";
 

@@ -7,6 +7,7 @@ const ProfileRow: FC<ProfileRowProps> = ({
   label,
   value,
   error,
+  autofocus = false,
   onChange,
   name,
   placeholder,
@@ -32,6 +33,7 @@ const ProfileRow: FC<ProfileRowProps> = ({
               onFocus={handleFocus}
               onBlur={handleBlur}
               readOnly={readonly}
+              autoFocus={autofocus}
             />
           </label>
         </div>

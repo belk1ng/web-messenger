@@ -7,7 +7,9 @@ function catcher(_: object, __: string, descriptor: PropertyDescriptor) {
   descriptor.value = async function (...args: unknown[]) {
     try {
       const response = await method.apply(this, args);
-      return response;
+      const { data, status } = response;
+
+      return { data, status };
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log("AxiosError: ", error.response);
@@ -16,7 +18,7 @@ function catcher(_: object, __: string, descriptor: PropertyDescriptor) {
           status: error?.response?.status as number,
         };
       } else {
-        console.log("Unexpected error: ", error);
+        console.log("Unexpected catcher error: ", error);
       }
     }
   };
