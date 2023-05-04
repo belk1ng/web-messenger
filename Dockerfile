@@ -5,8 +5,6 @@ WORKDIR /app
 
 EXPOSE 3000
 
-RUN npm ci
-RUN npm run build
-RUN npm i -g serve
+RUN npm ci --legacy-peer-deps && npm run build && npm i -g serve
 
 CMD serve -s build
