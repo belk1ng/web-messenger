@@ -1,4 +1,4 @@
-type CriteriaReturnType = string;
+type CriteriaReturnType = string | number;
 type GroupByAccumulator<T> = Record<CriteriaReturnType, T[]>;
 
 const groupBy = <T>(

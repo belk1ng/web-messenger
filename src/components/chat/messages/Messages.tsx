@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useMemo, useCallback } from "react";
 import Message from "../../message";
-import groupBy from "../../../utils/groupBy";
+import groupBy from "../../../utils/groupBy/groupBy";
 import styles from "./Messages.module.scss";
 import { ChatMessage } from "../../../@types/chats";
 
