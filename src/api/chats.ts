@@ -7,9 +7,16 @@ class ChatsAPI {
   private static CHATS_PREFIX = "/chats";
 
   @catcher
-  static async getChats(): MethodResponse<Chat[]> {
+  static async getChats(title?: string): MethodResponse<Chat[]> {
+    const params = new URLSearchParams();
+
+    if (title) {
+      params.append("title", title);
+    }
+
     return axios.get<Chat[]>(
-      `${ChatsAPI.CHATS_PREFIX}${CHATS_ENDPOINTS.CHATS}`
+      `${ChatsAPI.CHATS_PREFIX}${CHATS_ENDPOINTS.CHATS}`,
+      { params }
     );
   }
 

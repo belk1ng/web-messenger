@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef, memo } from "react";
+import React, { FC, useState, useEffect, memo } from "react";
 import { Link } from "react-router-dom";
 import ChatSearch from "../chat-search";
 import { DialogList } from "../dialog";
@@ -26,31 +26,18 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
     setModalActive(false);
   };
 
-  const allChats = useRef<Chat[]>([]);
-
   useEffect(() => {
     handleLoadChats();
   }, []);
 
   useEffect(() => {
-    if (chatSearchQuery.length) {
-      setChats(
-        allChats.current.filter((chat) =>
-          chat.title
-            .toLowerCase()
-            .includes(chatSearchQuery.trim().toLowerCase())
-        )
-      );
-    } else if (
-      (chats.length > 0 && chats[0] !== null) ||
-      (allChats.current.length > 0 && chatSearchQuery.trim() === "")
-    ) {
-      setChats(allChats.current);
-    }
+    setChats(Array(15).fill(null));
+
+    handleLoadChats(chatSearchQuery.trim());
   }, [chatSearchQuery]);
 
-  const handleLoadChats = async () => {
-    const response = await ChatsAPI.getChats();
+  const handleLoadChats = async (query?: string) => {
+    const response = await ChatsAPI.getChats(query);
 
     if (
       response?.data &&
@@ -59,9 +46,9 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
       !("reason" in response.data)
     ) {
       setChats(response.data);
-      allChats.current = response.data;
     } else {
       console.log("Error: ", response?.data);
+      setChats([]);
     }
   };
 
