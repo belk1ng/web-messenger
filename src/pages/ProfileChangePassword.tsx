@@ -100,6 +100,7 @@ const ProfileChangePasswordPage = () => {
           name="oldPassword"
           label="Old password"
           type="password"
+          autofocus
         />
         <ProfileRow
           readonly={false}

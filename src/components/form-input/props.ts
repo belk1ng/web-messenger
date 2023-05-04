@@ -6,8 +6,9 @@ export interface FormInputProps {
   placeholder?: string;
   label: string;
   validationRule?: VALIDATION_FIELD;
-
   value: string;
+
+  autofocus?: boolean;
   onChange?: (
     name: string
   ) => (event: React.ChangeEvent<HTMLInputElement>) => void;
