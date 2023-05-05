@@ -26,7 +26,7 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
     reloadChats,
   } = useChats(scrollbarRef?.current);
 
-  const queryTrimed = chatSearchQuery.trim();
+  const queryTrimmed = chatSearchQuery.trim();
 
   const handleOpenModal = () => {
     setModalActive(true);
@@ -67,15 +67,15 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
             )}
           </Modal>
         </div>
-        {queryTrimed &&
+        {queryTrimmed &&
           chats[0] !== null &&
           (chats.length ? (
             <p className={styles.aside__results}>
-              Found by request <b>&#34;{queryTrimed}&#34;</b>:
+              Found by request <b>&#34;{queryTrimmed}&#34;</b>:
             </p>
           ) : (
             <p className={styles.aside__results}>
-              No results found for <b>&#34;{queryTrimed}&#34;</b>.
+              No results found for <b>&#34;{queryTrimmed}&#34;</b>.
             </p>
           ))}
       </section>
