@@ -69,6 +69,12 @@ const useChats = (scrollbarRef: Scrollbars | null) => {
     }
   };
 
+  const reloadChats = () => {
+    scrollbarRef?.scrollToTop();
+    setChatsOffset(0);
+    handleLoadChats(0, chatSearchQuery, false);
+  };
+
   const handleScroll = () => {
     const scrollbar = scrollbarRef;
 
@@ -95,6 +101,7 @@ const useChats = (scrollbarRef: Scrollbars | null) => {
     handleScroll,
     chatsAutoLoading,
     handleLoadChats,
+    reloadChats,
   };
 };
 

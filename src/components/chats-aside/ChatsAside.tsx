@@ -22,8 +22,8 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
     chatSearchQuery,
     setChatSearchQuery,
     handleScroll,
-    handleLoadChats,
     chatsAutoLoading,
+    reloadChats,
   } = useChats(scrollbarRef?.current);
 
   const queryTrimed = chatSearchQuery.trim();
@@ -61,13 +61,13 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
           <Modal active={modalActive} setActive={setModalActive}>
             {modalActive && (
               <CreateChatModalContent
-                reloadChats={handleLoadChats}
+                reloadChats={reloadChats}
                 closeModal={handleCloseModal}
               />
             )}
           </Modal>
         </div>
-        {queryTrimed.length > 0 &&
+        {queryTrimed &&
           chats[0] !== null &&
           (chats.length ? (
             <p className={styles.aside__results}>

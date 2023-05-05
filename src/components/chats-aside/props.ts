@@ -3,6 +3,6 @@ export interface ChatsAsideProps {
 }
 
 export interface CreateChatModalContentProps {
-  reloadChats: () => Promise<void>;
+  reloadChats: VoidFunction;
   closeModal: VoidFunction;
 }

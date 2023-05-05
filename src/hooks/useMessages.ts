@@ -1,4 +1,13 @@
-import { useState, useRef, useContext, useEffect, useCallback } from "react";
+import {
+  useState,
+  useRef,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+  MouseEvent,
+} from "react";
+import Scrollbars from "react-custom-scrollbars-2";
 import { ChatContext } from "../contexts/ChatContext";
 import { ChatMessage } from "../@types/chats";
 
@@ -10,32 +19,19 @@ export enum ChatMessagesBusEvents {
   "RESET" = "reset",
 }
 
-const useMessages = () => {
-  const { eventBus, socket } = useContext(ChatContext);
+const useMessages = (scrollbarRef: Scrollbars | null) => {
+  const { eventBus, socket, chat, handleChatDisconnect } =
+    useContext(ChatContext);
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
-  const [stopLoading, setStopLoading] = useState(false);
+  const [noMoreMessages, setNoMoreMessages] = useState(false);
 
   const messagesOffset = useRef(0);
 
-  const handleLoadOldMessages = () => {
-    if (!stopLoading) {
-      socket?.send("get old", String(messagesOffset.current));
-    }
+  const chatInitialized = useRef(false);
 
-    messagesOffset.current += 20;
-  };
-
-  const handleNoMoreMessages = () => {
-    setStopLoading(true);
-  };
-
-  const handleReset = () => {
-    setMessages([]);
-    setStopLoading(false);
-    messagesOffset.current = 0;
-  };
+  const isLoading = useRef(false);
 
   const _initEventBus = useCallback(() => {
     if (eventBus) {
@@ -65,12 +61,85 @@ const useMessages = () => {
     };
   }, [_initEventBus]);
 
+  useLayoutEffect(() => {
+    if (scrollbarRef) {
+      const _scrollTop = scrollbarRef.getScrollTop();
+      const _clientHeight = scrollbarRef.getClientHeight();
+      const _scrollHeight = scrollbarRef.getScrollHeight();
+
+      const delta = 200;
+
+      const isScrollAtBottom =
+        _scrollTop + _clientHeight + delta > _scrollHeight;
+
+      // Scroll down when opening a chat or when new message received
+      if (isScrollAtBottom || !chatInitialized.current) {
+        scrollbarRef.scrollToBottom();
+      }
+
+      // Scroll down to prevent scrollbar being at top
+      if (_scrollTop <= 250 && chatInitialized.current) {
+        scrollbarRef.scrollTop(_clientHeight);
+      }
+    }
+
+    if (chat && messages.length > 0) {
+      chatInitialized.current = true;
+      isLoading.current = false;
+    } else {
+      chatInitialized.current = false;
+    }
+  }, [messages, chat]);
+
+  useEffect(() => {
+    const _handlePressEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleChatDisconnect();
+      }
+    };
+
+    document.addEventListener("keydown", _handlePressEscape);
+
+    return () => {
+      document.removeEventListener("keydown", _handlePressEscape);
+    };
+  }, [handleChatDisconnect]);
+
+  const handleLoadOldMessages = () => {
+    if (!noMoreMessages) {
+      socket?.send("get old", String(messagesOffset.current));
+    }
+
+    messagesOffset.current += 20;
+  };
+
+  const handleNoMoreMessages = () => {
+    setNoMoreMessages(true);
+  };
+
+  const handleReset = () => {
+    setMessages([]);
+    setNoMoreMessages(false);
+    messagesOffset.current = 0;
+  };
+
+  const handleScroll = (event: MouseEvent<HTMLDivElement>) => {
+    const _target = event.target as Element;
+
+    if (
+      _target.scrollTop <= 250 &&
+      !isLoading.current &&
+      socket?.socket?.readyState &&
+      !noMoreMessages
+    ) {
+      isLoading.current = true;
+      handleLoadOldMessages();
+    }
+  };
+
   return {
     messages,
-    stopLoading,
-    messagesOffset: messagesOffset.current,
-
-    handleLoadOldMessages,
+    handleScroll,
   };
 };
 
