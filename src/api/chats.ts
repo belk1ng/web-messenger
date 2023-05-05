@@ -5,18 +5,26 @@ import { CHATS_ENDPOINTS, Chat } from "../@types/chats";
 
 class ChatsAPI {
   private static CHATS_PREFIX = "/chats";
+  public static CHATS_LIMIT = 20;
 
   @catcher
-  static async getChats(title?: string): MethodResponse<Chat[]> {
+  static async getChats(
+    offset: number,
+    title = "",
+    controller?: AbortController
+  ): MethodResponse<Chat[]> {
     const params = new URLSearchParams();
 
     if (title) {
       params.append("title", title);
     }
 
+    params.append("limit", String(ChatsAPI.CHATS_LIMIT));
+    params.append("offset", String(offset));
+
     return axios.get<Chat[]>(
       `${ChatsAPI.CHATS_PREFIX}${CHATS_ENDPOINTS.CHATS}`,
-      { params }
+      { params, signal: controller?.signal }
     );
   }
 
