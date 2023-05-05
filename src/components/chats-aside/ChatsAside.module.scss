@@ -93,6 +93,10 @@
       transform: scale(1.01);
     }
   }
+
+  &__loader {
+    @include flex-center;
+  }
 }
 
 .modal {

@@ -1,22 +1,32 @@
-import React, { FC, useState, useEffect, useRef, memo } from "react";
+import React, { FC, useState, useRef, memo } from "react";
 import { Link } from "react-router-dom";
 import ChatSearch from "../chat-search";
 import { DialogList } from "../dialog";
 import Scrollbar from "../scrollbar";
+import Scrollbars from "react-custom-scrollbars-2";
 import Modal from "../modal";
 import CreateChatModalContent from "./CreateChatModalContent";
+import Loader from "../loader/Loader";
 import styles from "./ChatsAside.module.scss";
 import { APP_ROUTES } from "../../routes/routes";
-import ChatsAPI from "../../api/chats";
+import useChats from "../../hooks/useChats";
 import { ChatsAsideProps } from "./props";
-import { Chat } from "../../@types/chats";
 
 const ChatsAside: FC<ChatsAsideProps> = () => {
-  const [chats, setChats] = useState<Chat[]>(Array(15).fill(null));
-
-  const [chatSearchQuery, setChatSearchQuery] = useState("");
-
   const [modalActive, setModalActive] = useState(false);
+
+  const scrollbarRef = useRef<Scrollbars>(null);
+
+  const {
+    chats,
+    chatSearchQuery,
+    setChatSearchQuery,
+    handleScroll,
+    chatsAutoLoading,
+    reloadChats,
+  } = useChats(scrollbarRef?.current);
+
+  const queryTrimed = chatSearchQuery.trim();
 
   const handleOpenModal = () => {
     setModalActive(true);
@@ -24,45 +34,6 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
 
   const handleCloseModal = () => {
     setModalActive(false);
-  };
-
-  const allChats = useRef<Chat[]>([]);
-
-  useEffect(() => {
-    handleLoadChats();
-  }, []);
-
-  useEffect(() => {
-    if (chatSearchQuery.length) {
-      setChats(
-        allChats.current.filter((chat) =>
-          chat.title
-            .toLowerCase()
-            .includes(chatSearchQuery.trim().toLowerCase())
-        )
-      );
-    } else if (
-      (chats.length > 0 && chats[0] !== null) ||
-      (allChats.current.length > 0 && chatSearchQuery.trim() === "")
-    ) {
-      setChats(allChats.current);
-    }
-  }, [chatSearchQuery]);
-
-  const handleLoadChats = async () => {
-    const response = await ChatsAPI.getChats();
-
-    if (
-      response?.data &&
-      typeof response.data === "object" &&
-      response.status === 200 &&
-      !("reason" in response.data)
-    ) {
-      setChats(response.data);
-      allChats.current = response.data;
-    } else {
-      console.log("Error: ", response?.data);
-    }
   };
 
   return (
@@ -90,26 +61,32 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
           <Modal active={modalActive} setActive={setModalActive}>
             {modalActive && (
               <CreateChatModalContent
-                reloadChats={handleLoadChats}
+                reloadChats={reloadChats}
                 closeModal={handleCloseModal}
               />
             )}
           </Modal>
         </div>
-        {chatSearchQuery.trim().length > 0 &&
+        {queryTrimed &&
+          chats[0] !== null &&
           (chats.length ? (
             <p className={styles.aside__results}>
-              Found by request <b>&#34;{chatSearchQuery.trim()}&#34;</b>:
+              Found by request <b>&#34;{queryTrimed}&#34;</b>:
             </p>
           ) : (
             <p className={styles.aside__results}>
-              No results found for <b>&#34;{chatSearchQuery.trim()}&#34;</b>.
+              No results found for <b>&#34;{queryTrimed}&#34;</b>.
             </p>
           ))}
       </section>
       <section className={styles.aside__list}>
-        <Scrollbar>
+        <Scrollbar ref={scrollbarRef} onScroll={handleScroll}>
           <DialogList list={chats} />
+          {chatsAutoLoading && (
+            <div className={styles.aside__loader}>
+              <Loader fullScreen={false} />
+            </div>
+          )}
         </Scrollbar>
       </section>
     </aside>
