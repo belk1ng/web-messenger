@@ -1,44 +1,6 @@
 @import "/src/assets/styles/variables.scss";
 @import "/src/assets/styles/mixins.scss";
 
-@keyframes show {
-  0% {
-    top: 0;
-    right: 0;
-    opacity: 0;
-    transform: scale(0.7);
-  }
-
-  100% {
-    top: 50px;
-    right: 0;
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes hide {
-  0% {
-    top: 50px;
-    right: 0;
-    opacity: 1;
-    transform: scale(1);
-    display: block;
-  }
-
-  99% {
-    display: block;
-  }
-
-  100% {
-    top: 0;
-    right: 0;
-    opacity: 0;
-    transform: scale(0.7);
-    display: none;
-  }
-}
-
 .dropdown {
   position: relative;
 
@@ -62,11 +24,6 @@
   }
 
   &__actions {
-    &--active {
-      display: flex;
-      animation: show 0.25s ease;
-    }
-
     position: absolute;
     top: 50px;
     right: 0;
@@ -79,11 +36,34 @@
 
     padding: 15px;
 
+    display: flex;
     flex-direction: column;
     gap: 16px;
 
-    &--hidden {
-      display: none;
+    &--enter {
+      top: 0;
+      opacity: 0;
+      scale: 0.85;
+    }
+
+    &--enter-active {
+      top: 50px;
+      opacity: 1;
+      scale: 1;
+      transition: all 0.2s ease-out;
+    }
+
+    &--exit {
+      top: 50px;
+      opacity: 1;
+      scale: 1;
+    }
+
+    &--exit-active {
+      top: 0;
+      opacity: 0;
+      scale: 0.85;
+      transition: all 0.2s ease-in-out;
     }
   }
 }

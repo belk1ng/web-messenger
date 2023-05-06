@@ -1,13 +1,15 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useRef } from "react";
+import { CSSTransition } from "react-transition-group";
 import { DropdownProps } from "./props";
-import classnames from "classnames";
 import styles from "./Dropdown.module.scss";
 
 const Dropdown: FC<DropdownProps> = ({ children }) => {
   const [showActions, setShowActions] = useState(false);
 
-  const handleShowActions = () => {
-    setShowActions(true);
+  const listRef = useRef<Nullable<HTMLUListElement>>(null);
+
+  const toggleShowActions = () => {
+    setShowActions((prev) => !prev);
   };
 
   const handleCloseActions = () => {
@@ -16,7 +18,7 @@ const Dropdown: FC<DropdownProps> = ({ children }) => {
 
   return (
     <div className={styles.dropdown} tabIndex={1} onBlur={handleCloseActions}>
-      <div className={styles.dropdown__area} onClick={handleShowActions}>
+      <div className={styles.dropdown__area} onClick={toggleShowActions}>
         <svg
           width="3"
           height="16"
@@ -30,16 +32,23 @@ const Dropdown: FC<DropdownProps> = ({ children }) => {
         </svg>
       </div>
 
-      <ul
-        className={classnames(
-          styles.dropdown__actions,
-          showActions
-            ? styles["dropdown__actions--active"]
-            : styles["dropdown__actions--hidden"]
-        )}
+      <CSSTransition
+        nodeRef={listRef}
+        timeout={250}
+        classNames={{
+          enter: styles["dropdown__actions--enter"],
+          enterActive: styles["dropdown__actions--enter-active"],
+          exit: styles["dropdown__actions--exit"],
+          exitActive: styles["dropdown__actions--exit-active"],
+        }}
+        in={showActions}
+        unmountOnExit
+        appear
       >
-        {children}
-      </ul>
+        <ul className={styles.dropdown__actions} ref={listRef}>
+          {children}
+        </ul>
+      </CSSTransition>
     </div>
   );
 };
