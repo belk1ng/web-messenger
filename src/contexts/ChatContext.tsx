@@ -27,7 +27,7 @@ interface ChatContextValues {
   handleChatDisconnect: ChatDisconnectCallback;
 
   // Bus
-  eventBus: EventBus | null;
+  eventBus: Nullable<EventBus>;
 }
 
 export type ChatConnectCallback = (chat: ActiveChat, url: string) => void;

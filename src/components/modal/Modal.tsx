@@ -3,7 +3,7 @@ import { ModalProps } from "./props";
 import styles from "./Modal.module.scss";
 import classnames from "classnames";
 
-const Modal: FC<ModalProps> = ({ active, setActive, children }) => {
+const Modal: FC<ModalProps> = ({ title, active, setActive, children }) => {
   const handleModalClose = (event: MouseEvent) => {
     if (event.target === event.currentTarget) {
       setActive(false);
@@ -45,7 +45,8 @@ const Modal: FC<ModalProps> = ({ active, setActive, children }) => {
           </g>
         </svg>
 
-        {children}
+        {title && <h3 className={styles.modal__title}>{title}</h3>}
+        {active && children}
       </div>
     </div>
   );

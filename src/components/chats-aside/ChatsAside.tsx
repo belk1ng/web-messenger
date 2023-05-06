@@ -16,7 +16,7 @@ import { ChatsAsideProps } from "./props";
 const ChatsAside: FC<ChatsAsideProps> = () => {
   const [modalActive, setModalActive] = useState(false);
 
-  const scrollbarRef = useRef<Scrollbars>(null);
+  const scrollbarRef = useRef<Nullable<Scrollbars>>(null);
 
   const {
     chats,
@@ -67,13 +67,15 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
             +
           </button>
 
-          <Modal active={modalActive} setActive={setModalActive}>
-            {modalActive && (
-              <CreateChatModalContent
-                reloadChats={reloadChats}
-                closeModal={handleCloseModal}
-              />
-            )}
+          <Modal
+            title="Create chat"
+            active={modalActive}
+            setActive={setModalActive}
+          >
+            <CreateChatModalContent
+              reloadChats={reloadChats}
+              closeModal={handleCloseModal}
+            />
           </Modal>
         </div>
         {searchHint}

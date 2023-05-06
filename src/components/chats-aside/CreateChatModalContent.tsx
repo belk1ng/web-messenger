@@ -45,8 +45,6 @@ export const CreateChatModalContent: FC<CreateChatModalContentProps> = ({
 
   return (
     <div className={styles.modal}>
-      <h3 className={styles.modal__title}>Create chat</h3>
-
       <form className={styles.modal__form} noValidate onSubmit={handleSubmit}>
         <FormInput
           name="title"

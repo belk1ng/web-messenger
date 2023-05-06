@@ -3,14 +3,13 @@ import Scrollbars from "react-custom-scrollbars-2";
 import ChatsAPI from "../api/chats";
 import { Chat } from "../@types/chats";
 
-const useChats = (scrollbarRef: Scrollbars | null) => {
+const useChats = (scrollbarRef: Nullable<Scrollbars>) => {
   const [chats, setChats] = useState<Chat[]>(Array(15).fill(null));
 
   const [chatsOffset, setChatsOffset] = useState(0);
 
-  const [chatsAutoLoading, setChatsAutoLoading] = useState<boolean | null>(
-    false
-  );
+  const [chatsAutoLoading, setChatsAutoLoading] =
+    useState<Nullable<boolean>>(false);
 
   const [chatSearchQuery, setChatSearchQuery] = useState("");
 

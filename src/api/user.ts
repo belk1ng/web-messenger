@@ -35,7 +35,7 @@ class UserAPI {
   @catcher
   static async updateProfilePassword(
     values: ProfilePasswordsValues
-  ): MethodResponse<string> {
+  ): MethodResponse {
     return axios.put<string>(
       `${UserAPI.USER_PREFIX}${USER_ENDPOINTS.UPDATE_PASSWORD}`,
       values

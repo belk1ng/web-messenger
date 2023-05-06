@@ -18,7 +18,7 @@ interface AuthContextProps {
 interface AuthContextValues {
   isInit: boolean;
 
-  user: null | AuthUser;
+  user: Nullable<AuthUser>;
   setUser: Dispatch<SetStateAction<AuthContextUser>>;
 
   isAuth: boolean;

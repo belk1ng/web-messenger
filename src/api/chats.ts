@@ -36,7 +36,7 @@ class ChatsAPI {
   }
 
   @catcher
-  static async createChat(title: string): MethodResponse<string> {
+  static async createChat(title: string): MethodResponse {
     return axios.post<string>(
       `${ChatsAPI.CHATS_PREFIX}${CHATS_ENDPOINTS.CHATS}`,
       { title }

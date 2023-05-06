@@ -8,7 +8,7 @@ import styles from "./Chat.module.scss";
 import ChatHeader from "./chat-header/ChatHeader";
 
 const Chat = () => {
-  const scrollbarRef = useRef<Scrollbars>(null);
+  const scrollbarRef = useRef<Nullable<Scrollbars>>(null);
 
   const { messages, handleScroll } = useMessages(scrollbarRef.current);
 
