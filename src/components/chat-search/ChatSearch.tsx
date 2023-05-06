@@ -1,5 +1,5 @@
 import React, { FC, useState, ChangeEvent, useCallback } from "react";
-import CloseIcon from "../../assets/icons/Close";
+import Close from "../../assets/icons/Close";
 import debounce from "../../utils/debounce/debounce";
 import { ChatSearchProps } from "./props";
 import styles from "./ChatSearch.module.scss";
@@ -25,7 +25,7 @@ const ChatSearch: FC<ChatSearchProps> = ({ setSearchQuery }) => {
     <label className={styles.input}>
       {value && (
         <div className={styles.input__reset} onClick={handleResetClick}>
-          <CloseIcon />
+          <Close />
         </div>
       )}
       <input

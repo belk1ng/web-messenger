@@ -1,6 +1,6 @@
 import React from "react";
 
-const CloseIcon = () => {
+export const Close = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
       <path
@@ -15,4 +15,4 @@ const CloseIcon = () => {
   );
 };
 
-export default CloseIcon;
+export default Close;
