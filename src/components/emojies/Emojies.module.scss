@@ -18,13 +18,6 @@
     cursor: pointer;
     fill: $grey;
     color: $grey;
-
-    transition: fill, color 0.25s ease;
-
-    &:hover {
-      fill: $blue;
-      color: $blue;
-    }
   }
 
   &--active > svg {
