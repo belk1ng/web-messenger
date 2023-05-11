@@ -68,10 +68,10 @@ const useChats = (scrollbarRef: Nullable<Scrollbars>) => {
     }
   };
 
-  const reloadChats = () => {
+  const reloadChats = async () => {
     scrollbarRef?.scrollToTop();
     setChatsOffset(0);
-    handleLoadChats(0, chatSearchQuery, false);
+    await handleLoadChats(0, chatSearchQuery, false);
   };
 
   const handleScroll = () => {

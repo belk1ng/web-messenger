@@ -10,6 +10,7 @@ import Router from "./routes/Router";
 import { BrowserRouter } from "react-router-dom";
 
 import AuthContextProvider from "./contexts/AuthContext";
+import ModalsContextProvider from "./contexts/ModalsContext";
 import Loader from "./components/loader";
 
 const root = ReactDOM.createRoot(
@@ -19,11 +20,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <BrowserRouter>
-        <Suspense fallback={<Loader />}>
-          <Router />
-        </Suspense>
-      </BrowserRouter>
+      <ModalsContextProvider>
+        <BrowserRouter>
+          <Suspense fallback={<Loader />}>
+            <Router />
+          </Suspense>
+        </BrowserRouter>
+      </ModalsContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );

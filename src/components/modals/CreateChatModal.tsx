@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
+import { ModalsContext } from "../../contexts/ModalsContext";
 import FormInput from "../form-input";
 import Button from "../button";
 import useForm from "../../hooks/useForm";
@@ -8,13 +9,17 @@ import {
   chatTitleRegExp,
 } from "../../utils/validate/validate";
 import ChatsAPI from "../../api/chats";
-import { CreateChatModalContentProps } from "./props";
-import styles from "./ChatsAside.module.scss";
+import styles from "./Modals.module.scss";
+import withModal from "./withModal";
+import { ModalType } from "../../contexts/ModalsContext";
 
-export const CreateChatModalContent: FC<CreateChatModalContentProps> = ({
-  reloadChats,
-  closeModal,
-}) => {
+export interface CreateChatModalProps {
+  reloadChats: () => Promise<void>;
+}
+
+export const Content: FC<CreateChatModalProps> = ({ reloadChats }) => {
+  const { handleCloseModal } = useContext(ModalsContext);
+
   const initState = {
     title: "",
   };
@@ -33,7 +38,7 @@ export const CreateChatModalContent: FC<CreateChatModalContentProps> = ({
 
     if (response?.status === 200) {
       await reloadChats();
-      closeModal();
+      handleCloseModal();
     }
   };
 
@@ -62,4 +67,10 @@ export const CreateChatModalContent: FC<CreateChatModalContentProps> = ({
   );
 };
 
-export default CreateChatModalContent;
+const CreateChatModal = withModal(
+  Content,
+  ModalType.CREATE_CHAT,
+  "Create chat"
+);
+
+export default CreateChatModal;
