@@ -20,7 +20,7 @@ const Emojies: FC<EmojiesProps> = ({ onEmojiClick }) => {
     <section
       className={classnames(
         styles.emojies,
-        pickerActive ? styles["emojies--active"] : ""
+        pickerActive && styles["emojies--active"]
       )}
       onMouseOver={handleOpenPicker}
       onMouseLeave={handleClosePicker}
