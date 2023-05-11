@@ -1,11 +1,11 @@
-import React, { FC, useState, useRef, useMemo, memo } from "react";
+import React, { FC, useContext, useRef, useMemo, memo } from "react";
+import { ModalType, ModalsContext } from "../../contexts/ModalsContext";
 import { Link } from "react-router-dom";
 import ChatSearch from "../chat-search";
 import { DialogList } from "../dialog";
 import Scrollbar from "../scrollbar";
 import Scrollbars from "react-custom-scrollbars-2";
-import Modal from "../modal";
-import CreateChatModalContent from "./CreateChatModalContent";
+import CreateChatModal from "../modals/CreateChatModal";
 import Loader from "../loader";
 import ChevronRight from "../../assets/icons/ChevronRight";
 import styles from "./ChatsAside.module.scss";
@@ -14,9 +14,9 @@ import useChats from "../../hooks/useChats";
 import { ChatsAsideProps } from "./props";
 
 const ChatsAside: FC<ChatsAsideProps> = () => {
-  const [modalActive, setModalActive] = useState(false);
-
   const scrollbarRef = useRef<Nullable<Scrollbars>>(null);
+
+  const { handleOpenModal } = useContext(ModalsContext);
 
   const {
     chats,
@@ -46,12 +46,8 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
     );
   }, [chatSearchQuery, chats]);
 
-  const handleOpenModal = () => {
-    setModalActive(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalActive(false);
+  const _handleOpenModal = () => {
+    handleOpenModal(ModalType.CREATE_CHAT);
   };
 
   return (
@@ -63,20 +59,11 @@ const ChatsAside: FC<ChatsAsideProps> = () => {
         </Link>
         <div className={styles.aside__actions}>
           <ChatSearch setSearchQuery={setChatSearchQuery} />
-          <button className={styles.aside__create} onClick={handleOpenModal}>
+          <button className={styles.aside__create} onClick={_handleOpenModal}>
             +
           </button>
 
-          <Modal
-            title="Create chat"
-            active={modalActive}
-            setActive={setModalActive}
-          >
-            <CreateChatModalContent
-              reloadChats={reloadChats}
-              closeModal={handleCloseModal}
-            />
-          </Modal>
+          <CreateChatModal reloadChats={reloadChats} />
         </div>
         {searchHint}
       </section>

@@ -1,0 +1,9 @@
+.modal {
+  min-width: 320px;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+}
