@@ -3,8 +3,11 @@ import React, {
   SyntheticEvent,
   useState,
   useContext,
+  useCallback,
   memo,
 } from "react";
+import { EmojiClickData } from "emoji-picker-react";
+import Emojies from "../../emojies";
 import { ChatContext } from "../../../contexts/ChatContext";
 import styles from "./MessageForm.module.scss";
 
@@ -16,6 +19,10 @@ const MessageForm = () => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
   };
+
+  const handleEmojiClick = useCallback((emojiData: EmojiClickData) => {
+    setMessage((prev) => prev + emojiData.emoji);
+  }, []);
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -38,6 +45,7 @@ const MessageForm = () => {
         placeholder="Message..."
         name="message"
       />
+      <Emojies onEmojiClick={handleEmojiClick} />
       <button className={styles.form__submit}>
         <svg
           rotate="180deg"
