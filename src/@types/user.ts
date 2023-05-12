@@ -7,9 +7,7 @@ export enum USER_ENDPOINTS {
   "SEARCH" = "/search",
 }
 
-export interface ProfileAvatarValues {
-  avatar: File;
-}
+export type ProfileAvatarValues = FormData;
 
 export type ProfileDataValues = Omit<User, "id" | "password" | "avatar">;
 

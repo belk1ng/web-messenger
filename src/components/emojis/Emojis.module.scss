@@ -1,0 +1,27 @@
+@import "/src/assets/styles/variables.scss";
+
+.emojies {
+  position: relative;
+
+  aside {
+    position: absolute !important;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  svg {
+    width: 27px;
+    height: 27px;
+    min-width: 27px;
+    min-height: 27px;
+
+    cursor: pointer;
+    fill: $grey;
+    color: $grey;
+  }
+
+  &--active > svg {
+    fill: $blue;
+    color: $blue;
+  }
+}

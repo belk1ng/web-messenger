@@ -12,7 +12,7 @@ class AuthAPI {
   private static AUTH_PREFIX = "/auth";
 
   @catcher
-  static async login(values: LoginValues): MethodResponse<string> {
+  static async login(values: LoginValues): MethodResponse {
     return axios.post<string>(
       `${AuthAPI.AUTH_PREFIX}${AUTH_ENDPOINTS.LOGIN}`,
       values
@@ -30,7 +30,7 @@ class AuthAPI {
   }
 
   @catcher
-  static async logout(): MethodResponse<string> {
+  static async logout(): MethodResponse {
     return axios.post<string>(`${AuthAPI.AUTH_PREFIX}${AUTH_ENDPOINTS.LOGOUT}`);
   }
 

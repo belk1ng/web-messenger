@@ -4,9 +4,9 @@ export type BadRequestError =
     }
   | string;
 
-export interface ServerResponse<T = string> {
+export interface ServerResponse<T> {
   data: T | BadRequestError;
   status: number;
 }
 
-export type MethodResponse<T> = Promise<ServerResponse<T> | undefined>;
+export type MethodResponse<T = string> = Promise<ServerResponse<T> | undefined>;

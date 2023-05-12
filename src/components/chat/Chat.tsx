@@ -5,10 +5,10 @@ import Scrollbars from "react-custom-scrollbars-2";
 import Messages from "./messages/Messages";
 import MessageForm from "./message-form/MessageForm";
 import styles from "./Chat.module.scss";
-import ChatHeader from "./header/ChatHeader";
+import ChatHeader from "./chat-header/ChatHeader";
 
 const Chat = () => {
-  const scrollbarRef = useRef<Scrollbars>(null);
+  const scrollbarRef = useRef<Nullable<Scrollbars>>(null);
 
   const { messages, handleScroll } = useMessages(scrollbarRef.current);
 

@@ -1,12 +1,15 @@
-import React, { FC, MouseEvent } from "react";
+import React, { FC, MouseEvent, useContext } from "react";
+import { ModalsContext } from "../../contexts/ModalsContext";
 import { ModalProps } from "./props";
 import styles from "./Modal.module.scss";
 import classnames from "classnames";
 
-const Modal: FC<ModalProps> = ({ active, setActive, children }) => {
+const Modal: FC<ModalProps> = ({ title, active, children }) => {
+  const { handleCloseModal } = useContext(ModalsContext);
+
   const handleModalClose = (event: MouseEvent) => {
     if (event.target === event.currentTarget) {
-      setActive(false);
+      handleCloseModal();
     }
   };
 
@@ -45,7 +48,8 @@ const Modal: FC<ModalProps> = ({ active, setActive, children }) => {
           </g>
         </svg>
 
-        {children}
+        {title && <h3 className={styles.modal__title}>{title}</h3>}
+        {active && children}
       </div>
     </div>
   );

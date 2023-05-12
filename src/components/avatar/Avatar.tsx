@@ -1,15 +1,16 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext } from "react";
+import { ModalType, ModalsContext } from "../../contexts/ModalsContext";
 import { AvatarProps } from "./props";
 import classnames from "classnames";
 import styles from "./Avatar.module.scss";
-import Modal from "../modal/Modal";
+import ChangeUserAvatarModal from "../modals/ChangeUserAvatarModal";
 
 const Avatar: FC<AvatarProps> = ({ source, readonly }) => {
-  const [modalActive, setModalActive] = useState(false);
+  const { handleOpenModal } = useContext(ModalsContext);
 
   const handleModalOpen = () => {
     if (!readonly) {
-      setModalActive(true);
+      handleOpenModal(ModalType.CHANGE_USER_AVATAR);
     }
   };
 
@@ -31,9 +32,7 @@ const Avatar: FC<AvatarProps> = ({ source, readonly }) => {
         />
       </div>
 
-      <Modal active={modalActive} setActive={setModalActive}>
-        <div>Feature in work :3</div>
-      </Modal>
+      <ChangeUserAvatarModal />
     </>
   );
 };

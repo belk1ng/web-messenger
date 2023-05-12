@@ -12,7 +12,7 @@ export interface User {
 
 export type AuthUser = Omit<User, "password">;
 
-export type AuthContextUser = null | AuthUser;
+export type AuthContextUser = Nullable<AuthUser>;
 
 export type LoginValues = Pick<User, "login" | "password">;
 

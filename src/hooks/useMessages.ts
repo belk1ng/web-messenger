@@ -19,7 +19,7 @@ export enum ChatMessagesBusEvents {
   "RESET" = "reset",
 }
 
-const useMessages = (scrollbarRef: Scrollbars | null) => {
+const useMessages = (scrollbarRef: Nullable<Scrollbars>) => {
   const { eventBus, socket, chat, handleChatDisconnect } =
     useContext(ChatContext);
 
