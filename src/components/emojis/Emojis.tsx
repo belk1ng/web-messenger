@@ -3,7 +3,7 @@ import EmojiPicker from "emoji-picker-react";
 import Smile from "../../assets/icons/Smile";
 import { EmojiesProps } from "./props";
 import classnames from "classnames";
-import styles from "./Emojies.module.scss";
+import styles from "./Emojis.module.scss";
 
 const Emojies: FC<EmojiesProps> = ({ onEmojiClick }) => {
   const [pickerActive, setPickerActive] = useState(false);

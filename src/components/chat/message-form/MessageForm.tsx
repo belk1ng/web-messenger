@@ -7,7 +7,7 @@ import React, {
   memo,
 } from "react";
 import { EmojiClickData } from "emoji-picker-react";
-import Emojies from "../../emojies";
+import Emojies from "../../emojis";
 import Send from "../../../assets/icons/Send";
 import { ChatContext } from "../../../contexts/ChatContext";
 import styles from "./MessageForm.module.scss";
